@@ -33,6 +33,7 @@ public class FeatureValueDistributionMatrixImpl implements FeatureValueDistribut
   }
 
   public FeatureValueDistributionMatrix setNewFeatureValue(String featureName, String featureValue) throws InvalidFeatureInDistributionMatrixException {
+
     Map<String, Integer> featureDistribution = this.featureValueDistribution.get(featureName);
 
     if(featureDistribution == null) {
