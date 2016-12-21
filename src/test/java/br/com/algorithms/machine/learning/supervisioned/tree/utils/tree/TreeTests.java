@@ -4,6 +4,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.fea
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.FeaturesImpl;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrix;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instances;
@@ -176,6 +177,15 @@ public class TreeTests {
     instances.addNewInstance(instance);
 
     assertEquals(NodeType.OUTPUT_LEAF_NODE, this.tree.buildDecisionTree(this.features, instances).getNodeType());
+  }
+
+
+  @Test
+  public void testGettingFeatureValueDistributionMatrix() {
+
+    Map<String, Integer> quantity = this.tree.calculateQuantityOutput(this.instances);
+
+    FeatureValueDistributionMatrix valueMatrix = this.tree.getFeatureValueDistributionMatrix(this.features, this.instances, quantity);
   }
 
   @Test

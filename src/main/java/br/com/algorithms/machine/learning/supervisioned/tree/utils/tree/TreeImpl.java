@@ -3,10 +3,13 @@ package br.com.algorithms.machine.learning.supervisioned.tree.utils.tree;
 import br.com.algorithms.machine.learning.math.entropy.Entropy;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Features;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrix;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrixImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyInstancesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.InvalidFeatureInDistributionMatrixException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.NodeImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.NodeType;
@@ -29,7 +32,7 @@ public class TreeImpl implements Tree {
       return buildLeaf(outputQuant);
     }
 
-    Feature feature = getBestFeature(features.getFeatures(), instances.getInstances(), outputQuant);
+    Feature feature = getBestFeature(features, instances, outputQuant);
 
     return null;
   }
@@ -72,13 +75,7 @@ public class TreeImpl implements Tree {
 
   protected boolean isOnlyOnePossibleOutput(Map<String, Integer> outputQuant) {
 
-    if(outputQuant.size() > 1) {
-
-      return false;
-    } else {
-
-      return true;
-    }
+    return outputQuant.size() <= 1;
   }
 
   private Node buildLeaf(Map<String, Integer> outputQuant) {
@@ -96,20 +93,39 @@ public class TreeImpl implements Tree {
     return outputQuant.keySet().iterator().next();
   }
 
-  protected Feature getBestFeature(List<Feature> features, List<Instance> instances, Map<String, Integer> outputQuant) {
+  protected Feature getBestFeature(Features features, Instances instances, Map<String, Integer> outputQuant) {
 
-    Double collectionEntropy = Entropy.calculateEntropy(outputQuant, instances.size());
+    Double collectionEntropy = Entropy.calculateEntropy(outputQuant, instances.getNumberOfInstances());
 
-    for(Feature feature : features) {
-
-      Map<String, Map<String, Integer>> featureValueDist = getFeatureValueDistribution(feature, instances, outputQuant);
-    }
+    FeatureValueDistributionMatrix featureValueDist = getFeatureValueDistributionMatrix(features, instances, outputQuant);
 
     return null;
   }
 
-  private Map<String,Map<String,Integer>> getFeatureValueDistribution(Feature feature, List<Instance> instances, Map<String, Integer> outputQuant) {
+  protected FeatureValueDistributionMatrix getFeatureValueDistributionMatrix(Features features, Instances instances, Map<String, Integer> outputQuant) {
 
-    return null;
+    FeatureValueDistributionMatrix distributionMatrix = new FeatureValueDistributionMatrixImpl();
+
+    for(Feature feature : features.getFeatures()) {
+
+      distributionMatrix.setNewFeature(feature.getName());
+
+      updateFeatureValueMatrix(instances, distributionMatrix, feature);
+    }
+
+    return distributionMatrix;
+  }
+
+  private void updateFeatureValueMatrix(Instances instances, FeatureValueDistributionMatrix distributionMatrix, Feature feature) {
+    for(Instance instance : instances.getInstances()) {
+
+      try {
+
+        distributionMatrix.addFeatureValueQuantity(feature.getName(), instance.getFeatureValue(feature.getName()));
+      } catch (InvalidFeatureInDistributionMatrixException e) {
+
+        e.printStackTrace();
+      }
+    }
   }
 }
