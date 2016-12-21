@@ -1,7 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.InvalidFeatureInDistributionMatrixException;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
