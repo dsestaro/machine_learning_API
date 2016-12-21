@@ -5,17 +5,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 public class FeatureValueDistributionMatrixTests {
 
-  private FeatureValueDistributionMatrix featureValueDistributionMatrix;
+  private FeatureValueDistributionMatrixImpl featureValueDistributionMatrix;
 
   @Before
-  public void instantiateFeatureValueDistributionMatrix() {
+  public void instantiateFeatureValueDistributionMatrix() throws InvalidFeatureInDistributionMatrixException {
 
     this.featureValueDistributionMatrix = new FeatureValueDistributionMatrixImpl();
 
     this.featureValueDistributionMatrix.setNewFeature("Feature");
+
+    this.featureValueDistributionMatrix.addFeatureValueQuantity("Feature", "Value2");
+    this.featureValueDistributionMatrix.addFeatureValueQuantity("Feature", "Value2");
   }
 
   @Test
@@ -45,12 +49,30 @@ public class FeatureValueDistributionMatrixTests {
   @Test
   public void testSettingFeatureValueInAnExistingFeature() throws InvalidFeatureInDistributionMatrixException {
 
-    assertNotNull(this.featureValueDistributionMatrix.setNewFeatureValue("Feature", "Value1"));
+    this.featureValueDistributionMatrix.setNewFeatureValue("Feature", "Value1");
   }
 
   @Test(expected = InvalidFeatureInDistributionMatrixException.class)
   public void testSettingFeatureValueInAnNonExistingFeature() throws InvalidFeatureInDistributionMatrixException {
 
     this.featureValueDistributionMatrix.setNewFeatureValue("HHHHjjjj", "Value1");
+  }
+
+  @Test
+  public void testAddingANewFeatureValueToTheMatrix() throws InvalidFeatureInDistributionMatrixException {
+
+    this.featureValueDistributionMatrix.addFeatureValueQuantity("Feature", "Value2");
+  }
+
+  @Test
+  public void testGettingTheQuantityByExistingFeatureValue() throws InvalidFeatureInDistributionMatrixException {
+
+    assertEquals(new Integer(2), this.featureValueDistributionMatrix.getQuantityByFeatureValue("Feature", "Value2"));
+  }
+
+  @Test
+  public void testGettingTheQuantityByNewFeatureValue() throws InvalidFeatureInDistributionMatrixException {
+
+    assertEquals(new Integer(0), this.featureValueDistributionMatrix.getQuantityByFeatureValue("Feature", "Error"));
   }
 }

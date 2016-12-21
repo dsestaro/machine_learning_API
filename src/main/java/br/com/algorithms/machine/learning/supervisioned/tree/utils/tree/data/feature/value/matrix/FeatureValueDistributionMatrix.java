@@ -10,5 +10,7 @@ public interface FeatureValueDistributionMatrix {
 
   Map<String, Integer> getFeatureDistribution(String feature) throws InvalidFeatureInDistributionMatrixException;
 
-  FeatureValueDistributionMatrix setNewFeatureValue(String featureName, String featureValue) throws InvalidFeatureInDistributionMatrixException;
+  FeatureValueDistributionMatrix addFeatureValueQuantity(String featureName, String featureValue) throws InvalidFeatureInDistributionMatrixException;
+
+  Integer getQuantityByFeatureValue(String featureName, String featureValue) throws InvalidFeatureInDistributionMatrixException;
 }
