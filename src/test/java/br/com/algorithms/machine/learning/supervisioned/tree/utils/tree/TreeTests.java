@@ -251,6 +251,16 @@ public class TreeTests {
   }
 
   @Test
+  public void testGettingFeaturesSeparetedByOutput() {
+    Map<String, Integer> quantity = this.tree.calculateQuantityOutput(this.instances);
+
+    Map<String, Instances> mappedInstances = this.tree.getFeaturesSeparetedByOutput(this.instances, quantity);
+
+    assertEquals(new Integer(9), mappedInstances.get("Yes").getNumberOfInstances());
+    assertEquals(new Integer(5), mappedInstances.get("No").getNumberOfInstances());
+  }
+
+  @Test
   public void testFullFlow() throws EmptyInstancesException, EmptyFeaturesException {
 
     this.tree.buildDecisionTree(this.features, this.instances);
