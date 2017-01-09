@@ -3,20 +3,14 @@ package br.com.algorithms.machine.learning.supervisioned.tree.utils.tree;
 import br.com.algorithms.machine.learning.math.entropy.Entropy;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Features;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.FeaturesImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrix;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrixImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyInstancesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.InvalidFeatureInDistributionMatrixException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.NodeImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.NodeType;
-import org.apache.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -96,57 +90,43 @@ public class TreeImpl implements Tree {
   }
 
   protected Feature getBestFeature(Features features, Instances instances, Map<String, Integer> outputQuant) {
-
-    Double collectionEntropy = Entropy.calculateEntropy(outputQuant, instances.getNumberOfInstances());
-
-    Map<String, Instances> mappedInstances = getFeaturesSeparetedByOutput(instances, outputQuant);
-
-    FeatureValueDistributionMatrix featureValueDist = getFeatureValueDistributionMatrix(features, instances, outputQuant);
-
-    return null;
-  }
-
-  protected Map<String,Instances> getFeaturesSeparetedByOutput(Instances instances, Map<String, Integer> outputQuant) {
-
-    Map<String, Instances> mappedInstances = new HashMap<String, Instances>();
-
-    for(String key : outputQuant.keySet()) {
-
-      mappedInstances.put(key, new InstancesImpl());
-    }
-
-    for(Instance instance : instances.getInstances()) {
-
-      mappedInstances.get(instance.getExpectedOutput()).addNewInstance(instance);
-    }
-
-    return mappedInstances;
-  }
-
-  protected FeatureValueDistributionMatrix getFeatureValueDistributionMatrix(Features features, Instances instances, Map<String, Integer> outputQuant) {
-
-    FeatureValueDistributionMatrix distributionMatrix = new FeatureValueDistributionMatrixImpl();
+    Double entropy = Entropy.calculateEntropy(outputQuant, instances.getNumberOfInstances());
+    Double bestInformationGain = 0.0;
+    Feature bestFeature = null;
 
     for(Feature feature : features.getFeatures()) {
 
-      distributionMatrix.setNewFeature(feature.getName());
+      Double featureInformationGain = entropy;
 
-      updateFeatureValueMatrix(instances, distributionMatrix, feature);
-    }
+      Map<String, Instances> quantityByFeatureValue = new HashMap<String, Instances>();
 
-    return distributionMatrix;
-  }
+      for(String featureValue : feature.getValues()) {
 
-  private void updateFeatureValueMatrix(Instances instances, FeatureValueDistributionMatrix distributionMatrix, Feature feature) {
-    for(Instance instance : instances.getInstances()) {
+        quantityByFeatureValue.put(featureValue, new InstancesImpl());
+      }
 
-      try {
+      for(Instance instance : instances.getInstances()) {
 
-        distributionMatrix.addFeatureValueQuantity(feature.getName(), instance.getFeatureValue(feature.getName()));
-      } catch (InvalidFeatureInDistributionMatrixException e) {
+        quantityByFeatureValue.get(instance.getFeatureValue(feature.getName())).addNewInstance(instance);
+      }
 
-        e.printStackTrace();
+      for(String featureValue : feature.getValues()) {
+
+        Map<String, Integer> quantityInstancesByOutput = calculateQuantityOutput(quantityByFeatureValue.get(featureValue));
+
+        featureInformationGain -= (quantityByFeatureValue.get(featureValue).getNumberOfInstances() /
+                                    instances.getNumberOfInstances()) *
+                                    Entropy.calculateEntropy(quantityInstancesByOutput, instances.getNumberOfInstances());
+
+
+        if(featureInformationGain > bestInformationGain) {
+
+          bestFeature = feature;
+          bestInformationGain = featureInformationGain;
+        }
       }
     }
+
+    return bestFeature;
   }
 }

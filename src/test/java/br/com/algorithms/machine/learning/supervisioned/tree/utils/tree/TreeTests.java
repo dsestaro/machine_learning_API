@@ -4,14 +4,12 @@ import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.fea
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.FeaturesImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.feature.value.matrix.FeatureValueDistributionMatrix;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.EmptyInstancesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.exception.InvalidFeatureInDistributionMatrixException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.tree.node.NodeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -234,30 +232,6 @@ public class TreeTests {
     instances.addNewInstance(instance);
 
     assertEquals(NodeType.OUTPUT_LEAF_NODE, this.tree.buildDecisionTree(this.features, instances).getNodeType());
-  }
-
-
-  @Test
-  public void testGettingFeatureValueDistributionMatrix() throws InvalidFeatureInDistributionMatrixException {
-
-    Map<String, Integer> quantity = this.tree.calculateQuantityOutput(this.instances);
-
-    FeatureValueDistributionMatrix valueMatrix = this.tree.getFeatureValueDistributionMatrix(this.features, this.instances, quantity);
-
-    assertEquals(new Integer(5), valueMatrix.getQuantityByFeatureValue("Outlook", "Sunny"));
-    assertEquals(new Integer(4), valueMatrix.getQuantityByFeatureValue("Temperature", "Cool"));
-    assertEquals(new Integer(7), valueMatrix.getQuantityByFeatureValue("Humidity", "Normal"));
-    assertEquals(new Integer(8), valueMatrix.getQuantityByFeatureValue("Wind", "Weak"));
-  }
-
-  @Test
-  public void testGettingFeaturesSeparetedByOutput() {
-    Map<String, Integer> quantity = this.tree.calculateQuantityOutput(this.instances);
-
-    Map<String, Instances> mappedInstances = this.tree.getFeaturesSeparetedByOutput(this.instances, quantity);
-
-    assertEquals(new Integer(9), mappedInstances.get("Yes").getNumberOfInstances());
-    assertEquals(new Integer(5), mappedInstances.get("No").getNumberOfInstances());
   }
 
   @Test
