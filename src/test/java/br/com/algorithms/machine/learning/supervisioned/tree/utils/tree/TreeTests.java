@@ -44,7 +44,7 @@ public class TreeTests {
     Feature featureTemperature = new FeatureImpl("Temperature");
     featureTemperature.addNewValue("Hot");
     featureTemperature.addNewValue("Mild");
-    featureTemperature.addNewValue("Cold");
+    featureTemperature.addNewValue("Cool");
     this.features.addFeature(featureTemperature);
 
     Feature featureHumidity = new FeatureImpl("Humidity");
@@ -232,6 +232,15 @@ public class TreeTests {
     instances.addNewInstance(instance);
 
     assertEquals(NodeType.OUTPUT_LEAF_NODE, this.tree.buildDecisionTree(this.features, instances).getNodeType());
+  }
+
+  @Test
+  public void testGetBestFeature() {
+    Map<String, Integer> quantity = this.tree.calculateQuantityOutput(this.instances);
+
+    Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
+
+    assertEquals("Outlook", feature.getName());
   }
 
   @Test

@@ -115,15 +115,14 @@ public class TreeImpl implements Tree {
         Map<String, Integer> quantityInstancesByOutput = calculateQuantityOutput(quantityByFeatureValue.get(featureValue));
 
         featureInformationGain -= (quantityByFeatureValue.get(featureValue).getNumberOfInstances() /
-                                    instances.getNumberOfInstances()) *
-                                    Entropy.calculateEntropy(quantityInstancesByOutput, instances.getNumberOfInstances());
+                                    Double.valueOf(instances.getNumberOfInstances())) *
+                                    Entropy.calculateEntropy(quantityInstancesByOutput, quantityByFeatureValue.get(featureValue).getNumberOfInstances());
+      }
 
+      if(featureInformationGain > bestInformationGain) {
 
-        if(featureInformationGain > bestInformationGain) {
-
-          bestFeature = feature;
-          bestInformationGain = featureInformationGain;
-        }
+        bestFeature = feature;
+        bestInformationGain = featureInformationGain;
       }
     }
 
