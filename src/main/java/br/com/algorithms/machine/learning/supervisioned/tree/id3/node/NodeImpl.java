@@ -1,0 +1,31 @@
+package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
+
+public class NodeImpl implements Node {
+
+  private NodeType nodeType;
+  private String output;
+
+  public Node setNodeType(NodeType nodeType) {
+
+    this.nodeType = nodeType;
+
+    return this;
+  }
+
+  public NodeType getNodeType() {
+
+    return this.nodeType;
+  }
+
+  public Node setOutput(String output) {
+
+    this.output = output;
+
+    return this;
+  }
+
+  public String getOutput() {
+
+    return this.output;
+  }
+}

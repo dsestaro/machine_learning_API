@@ -27,10 +27,4 @@ public class Entropy {
 
     return quant / total;
   }
-
-  public static double calculateFeatureEntropy() {
-
-
-    return 0;
-  }
 }
