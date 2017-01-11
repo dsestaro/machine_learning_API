@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -251,6 +252,25 @@ public class TreeTests {
     Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
 
     Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
+  }
+
+  @Test
+  public void testFilterBestFeatureFromTheFeaturesList() {
+
+    Feature feature = new FeatureImpl("Outlook");
+    feature.addNewValue("Sunny");
+    feature.addNewValue("Overcast");
+    feature.addNewValue("Rain");
+    this.features.addFeature(feature);
+
+    Features featuresFiltered = this.tree.getRaimingFeatures(this.features, feature);
+
+    assertEquals(new Integer(3), featuresFiltered.getNumberOfFeatures());
+
+    for(Feature filteredFeature : featuresFiltered.getFeatures()) {
+
+      assertNotEquals(feature.getName(), filteredFeature.getName());
+    }
   }
 
   @Test

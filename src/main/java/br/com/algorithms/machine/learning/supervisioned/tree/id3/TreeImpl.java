@@ -4,6 +4,7 @@ import br.com.algorithms.machine.learning.math.entropy.Entropy;
 import br.com.algorithms.machine.learning.math.information.gain.InformationGain;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
@@ -27,7 +28,9 @@ public class TreeImpl implements Tree {
       return buildLeaf(outputQuant);
     }
 
-    Feature feature = getBestFeature(features, instances, outputQuant);
+    Feature bestFeature = getBestFeature(features, instances, outputQuant);
+
+    Features filteredFeatures = getRaimingFeatures(features, bestFeature);
 
     return null;
   }
@@ -84,5 +87,20 @@ public class TreeImpl implements Tree {
     }
 
     return bestFeature;
+  }
+
+  protected Features getRaimingFeatures(Features features, Feature bestFeature) {
+
+    Features filteredList = new FeaturesImpl();
+
+    for(Feature feature : features.getFeatures()) {
+
+      if(!feature.getName().equals(bestFeature.getName())) {
+
+        filteredList.addFeature(feature);
+      }
+    }
+
+    return filteredList;
   }
 }
