@@ -4,6 +4,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Fe
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class TreeUtils {
     }
   }
 
-  public static Map<String, Instances> calculateQuantityByFeatureValue(Instances instances, Feature feature) {
+  public static Map<String, Instances> calculateQuantityByFeatureValue(Instances instances, Feature feature) throws InvalidFeatureValueException {
 
     Map<String, Instances> quantityByFeatureValue = new HashMap<String, Instances>();
 
@@ -44,7 +45,13 @@ public class TreeUtils {
 
     for(Instance instance : instances.getInstances()) {
 
-      quantityByFeatureValue.get(instance.getFeatureValue(feature.getName())).addNewInstance(instance);
+      try {
+
+        quantityByFeatureValue.get(instance.getFeatureValue(feature.getName())).addNewInstance(instance);
+      } catch (NullPointerException e) {
+
+        throw new InvalidFeatureValueException(instance.getFeatureValue(feature.getName()));
+      }
     }
 
     return quantityByFeatureValue;

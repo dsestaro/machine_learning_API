@@ -12,6 +12,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.Empty
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -172,25 +173,25 @@ public class TreeTests {
   }
 
   @Test(expected = EmptyFeaturesException.class)
-  public void testNullFeatures() throws EmptyFeaturesException, EmptyInstancesException {
+  public void testNullFeatures() throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
 
     this.tree.buildDecisionTree(null, null);
   }
 
   @Test(expected = EmptyFeaturesException.class)
-  public void testEmptyFeatures() throws EmptyFeaturesException, EmptyInstancesException {
+  public void testEmptyFeatures() throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
 
     this.tree.buildDecisionTree(new FeaturesImpl(), null);
   }
 
   @Test(expected = EmptyInstancesException.class)
-  public void testNullInstances() throws EmptyFeaturesException, EmptyInstancesException {
+  public void testNullInstances() throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
 
     this.tree.buildDecisionTree(this.features, null);
   }
 
   @Test(expected = EmptyInstancesException.class)
-  public void testEmptyInstances() throws EmptyFeaturesException, EmptyInstancesException {
+  public void testEmptyInstances() throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
 
     this.tree.buildDecisionTree(this.features, new InstancesImpl());
   }
@@ -214,7 +215,7 @@ public class TreeTests {
   }
 
   @Test
-  public void testIfLeafIsBeingReturnedWhenOnlyOneOutputIsSent() throws EmptyInstancesException, EmptyFeaturesException {
+  public void testIfLeafIsBeingReturnedWhenOnlyOneOutputIsSent() throws EmptyInstancesException, EmptyFeaturesException, InvalidFeatureValueException {
 
     Instances instances = new InstancesImpl();
     Instance instance = new InstanceImpl();
@@ -227,7 +228,8 @@ public class TreeTests {
   }
 
   @Test
-  public void testGetBestFeature() {
+  public void testGetBestFeature() throws InvalidFeatureValueException {
+
     Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
 
     Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
@@ -235,8 +237,24 @@ public class TreeTests {
     assertEquals("Outlook", feature.getName());
   }
 
+  @Test(expected = InvalidFeatureValueException.class)
+  public void testGetBestFeatureWithInvalidValueOnAInstance() throws InvalidFeatureValueException {
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput("Yes");
+    instance.setNewFeature("Outlook", "Invalid");
+    instance.setNewFeature("Temperature", "Invalid");
+    instance.setNewFeature("Humidity", "Invalid");
+    instance.setNewFeature("Wind", "Invalid");
+    this.instances.addNewInstance(instance);
+
+    Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
+
+    Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
+  }
+
   @Test
-  public void testFullFlow() throws EmptyInstancesException, EmptyFeaturesException {
+  public void testFullFlow() throws EmptyInstancesException, EmptyFeaturesException, InvalidFeatureValueException {
 
     this.tree.buildDecisionTree(this.features, this.instances);
   }

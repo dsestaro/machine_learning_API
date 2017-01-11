@@ -7,6 +7,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -151,11 +152,25 @@ public class TreeUtilsTests {
   }
 
   @Test
-  public void testCalculateQuantityByFeatureValue() {
+  public void testCalculateQuantityByFeatureValue() throws InvalidFeatureValueException {
 
     Map<String, Instances> quantity = TreeUtils.calculateQuantityByFeatureValue(this.instances, this.feature);
 
     assertEquals(new Integer(8), quantity.get("Weak").getNumberOfInstances());
     assertEquals(new Integer(6), quantity.get("Strong").getNumberOfInstances());
+  }
+
+  @Test(expected = InvalidFeatureValueException.class)
+  public void testCalculateQuantityByFeatureValueWithInvalidValue() throws InvalidFeatureValueException {
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput("Yes");
+    instance.setNewFeature("Outlook", "Invalid");
+    instance.setNewFeature("Temperature", "Invalid");
+    instance.setNewFeature("Humidity", "Invalid");
+    instance.setNewFeature("Wind", "Invalid");
+    this.instances.addNewInstance(instance);
+
+    Map<String, Instances> quantity = TreeUtils.calculateQuantityByFeatureValue(this.instances, this.feature);
   }
 }

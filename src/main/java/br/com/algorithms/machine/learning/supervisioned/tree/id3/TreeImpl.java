@@ -4,22 +4,20 @@ import br.com.algorithms.machine.learning.math.entropy.Entropy;
 import br.com.algorithms.machine.learning.math.information.gain.InformationGain;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
+import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class TreeImpl implements Tree {
 
-  public Node buildDecisionTree(Features features, Instances instances) throws EmptyFeaturesException, EmptyInstancesException {
+  public Node buildDecisionTree(Features features, Instances instances) throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
 
     validateParameters(features, instances);
 
@@ -67,7 +65,7 @@ public class TreeImpl implements Tree {
     return outputQuant.keySet().iterator().next();
   }
 
-  protected Feature getBestFeature(Features features, Instances instances, Map<String, Integer> outputQuant) {
+  protected Feature getBestFeature(Features features, Instances instances, Map<String, Integer> outputQuant) throws InvalidFeatureValueException {
 
     Double entropy = Entropy.calculateEntropy(outputQuant, instances.getNumberOfInstances());
     Double bestInformationGain = 0.0;
