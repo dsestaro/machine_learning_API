@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class NodeTests {
 
-  private Node node;
+  private NodeImpl node;
 
   @Before
   public void instantiateNode() {

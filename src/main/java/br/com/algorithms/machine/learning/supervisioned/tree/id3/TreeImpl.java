@@ -9,7 +9,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeImpl;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeBuilder;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
@@ -55,12 +55,12 @@ public class TreeImpl implements Tree {
 
   private Node buildLeaf(Map<String, Integer> outputQuant) {
 
-    Node node = new NodeImpl();
+    NodeBuilder nodeBuilder = new NodeBuilder();
 
-    node.setNodeType(NodeType.OUTPUT_LEAF_NODE);
-    node.setOutput(getLeafOutput(outputQuant));
+    nodeBuilder.setNodeType(NodeType.OUTPUT_LEAF_NODE);
+    nodeBuilder.setOutput(getLeafOutput(outputQuant));
 
-    return node;
+    return nodeBuilder.buildNode();
   }
 
   private String getLeafOutput(Map<String, Integer> outputQuant) {
