@@ -32,6 +32,8 @@ public class TreeImpl implements Tree {
 
     Features filteredFeatures = getRaimingFeatures(features, bestFeature);
 
+    Node root = buildFeatureNode(bestFeature);
+
     return null;
   }
 
@@ -102,5 +104,15 @@ public class TreeImpl implements Tree {
     }
 
     return filteredList;
+  }
+
+  protected Node buildFeatureNode(Feature bestFeature) {
+
+    NodeBuilder nodeBuilder = new NodeBuilder();
+
+    nodeBuilder.setNodeType(NodeType.FEATURE_NODE);
+    nodeBuilder.setNodeFeature(bestFeature);
+
+    return nodeBuilder.buildNode();
   }
 }

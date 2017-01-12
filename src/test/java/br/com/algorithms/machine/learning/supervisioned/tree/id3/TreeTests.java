@@ -9,6 +9,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
@@ -271,6 +272,19 @@ public class TreeTests {
 
       assertNotEquals(feature.getName(), filteredFeature.getName());
     }
+  }
+
+  @Test
+  public void testBuildFeatureNode() {
+
+    Feature feature = new FeatureImpl("Wind");
+    feature.addNewValue("Weak");
+    feature.addNewValue("Strong");
+
+    Node node = this.tree.buildFeatureNode(feature);
+
+    assertEquals(NodeType.FEATURE_NODE, node.getNodeType());
+    assertEquals("Wind", node.getFeature().getName());
   }
 
   @Test

@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidNodeInformationException;
 
 public class NodeBuilder {
@@ -25,6 +26,13 @@ public class NodeBuilder {
     return this;
   }
 
+  public NodeBuilder setNodeFeature(Feature feature) {
+
+    this.node.setFeature(feature);
+
+    return this;
+  }
+
   public Node buildNode () {
 
     validateNode();
@@ -34,17 +42,55 @@ public class NodeBuilder {
 
   private void validateNode() {
 
+    validateNodeType();
+
+    validateFeatureNode();
+
+    validateLeafNode();
+  }
+
+  private void validateNodeType() {
+
     if(this.node.getNodeType() == null) {
 
-      throw new InvalidNodeInformationException("The node type cannot be null.");
+      throwsNodeInformationException("The node type cannot be null.");
     }
+  }
+
+  private void validateFeatureNode() {
+
+    if(this.node.getNodeType() == NodeType.FEATURE_NODE) {
+
+      validateFeature();
+    }
+  }
+
+  private void validateFeature() {
+
+    if(this.node.getFeature() == null) {
+
+      throwsNodeInformationException("The feature value cannot be null when the node type is equals " + NodeType.FEATURE_NODE + ".");
+    }
+  }
+
+  private void validateLeafNode() {
 
     if(this.node.getNodeType() == NodeType.OUTPUT_LEAF_NODE) {
 
-      if(this.node.getOutput() == null || this.node.getOutput().isEmpty()) {
-
-        throw new InvalidNodeInformationException("The output value cannot be null em the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".");
-      }
+      validateOutput();
     }
+  }
+
+  private void validateOutput() {
+
+    if(this.node.getOutput() == null || this.node.getOutput().isEmpty()) {
+
+      throwsNodeInformationException("The output value cannot be null when the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".");
+    }
+  }
+
+  private void throwsNodeInformationException(String message) {
+
+    throw new InvalidNodeInformationException(message);
   }
 }

@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidNodeInformationException;
 import org.junit.Test;
 
@@ -21,15 +22,17 @@ public class NodeBuilderTests {
     assertEquals("Yes", node.getOutput());
   }
 
+  @Test
   public void testCreationOfAValidFeatureNodeObject() {
 
     NodeBuilder nodeBuilder = new NodeBuilder();
 
     nodeBuilder.setNodeType(NodeType.FEATURE_NODE);
+    nodeBuilder.setNodeFeature(new FeatureImpl("Outlook"));
 
     Node node = nodeBuilder.buildNode();
 
-    assertEquals(NodeType.OUTPUT_LEAF_NODE, node.getNodeType());
+    assertEquals(NodeType.FEATURE_NODE, node.getNodeType());
   }
 
   @Test(expected = InvalidNodeInformationException.class)
@@ -41,14 +44,22 @@ public class NodeBuilderTests {
   }
 
   @Test(expected = InvalidNodeInformationException.class)
-  public void testCreationOfANodeObjectWithMissingOutputValue() {
+  public void testCreationOfALeafNodeObjectWithMissingOutputValue() {
 
     NodeBuilder nodeBuilder = new NodeBuilder();
 
     nodeBuilder.setNodeType(NodeType.OUTPUT_LEAF_NODE);
 
     Node node = nodeBuilder.buildNode();
+  }
 
-    assertEquals(NodeType.FEATURE_NODE, node.getNodeType());
+  @Test(expected = InvalidNodeInformationException.class)
+  public void testCreationOfAFeatureNodeObjectWithMissingOutputValue() {
+
+    NodeBuilder nodeBuilder = new NodeBuilder();
+
+    nodeBuilder.setNodeType(NodeType.FEATURE_NODE);
+
+    Node node = nodeBuilder.buildNode();
   }
 }
