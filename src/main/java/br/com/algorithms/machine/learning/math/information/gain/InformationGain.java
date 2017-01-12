@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class InformationGain {
 
+  protected InformationGain() {
+
+  }
+
   public static Double calculateInformationGain(Double entropy, Feature feature, Map<String, Instances> quantityByFeatureValue, double instancesQuantity) {
     Double featureInformationGain = entropy;
 

@@ -11,6 +11,10 @@ import java.util.Map;
 
 public class TreeUtils {
 
+  protected TreeUtils() {
+
+  }
+
   public static Map<String, Integer> calculateQuantityOutput(Instances instances) {
 
     Map<String, Integer> outputQuant = new HashMap<String, Integer>();

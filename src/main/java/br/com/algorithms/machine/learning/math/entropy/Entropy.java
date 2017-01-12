@@ -4,6 +4,10 @@ import java.util.Map;
 
 public class Entropy {
 
+  protected Entropy() {
+
+  }
+
   public static Double calculateEntropy(Map<String, Integer> outputQuant, int size) {
 
     Double entropy = 0.0;

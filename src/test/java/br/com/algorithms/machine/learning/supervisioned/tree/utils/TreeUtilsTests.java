@@ -143,6 +143,12 @@ public class TreeUtilsTests {
   }
 
   @Test
+  public void testTreeUtilsInstantiation() {
+
+    new TreeUtils();
+  }
+
+  @Test
   public void testCalculateOutputMap() {
 
     Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
