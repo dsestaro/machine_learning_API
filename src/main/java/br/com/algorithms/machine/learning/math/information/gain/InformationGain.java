@@ -14,6 +14,7 @@ public class InformationGain {
   }
 
   public static Double calculateInformationGain(Double entropy, Feature feature, Map<String, Instances> quantityByFeatureValue, double instancesQuantity) {
+
     Double featureInformationGain = entropy;
 
     for(String featureValue : feature.getValues()) {
