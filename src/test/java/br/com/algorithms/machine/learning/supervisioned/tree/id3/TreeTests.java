@@ -264,7 +264,7 @@ public class TreeTests {
     feature.addNewValue("Rain");
     this.features.addFeature(feature);
 
-    Features featuresFiltered = this.tree.getRaimingFeatures(this.features, feature);
+    Features featuresFiltered = this.tree.getRemaingFeatures(this.features, feature);
 
     assertEquals(new Integer(3), featuresFiltered.getNumberOfFeatures());
 
@@ -288,8 +288,41 @@ public class TreeTests {
   }
 
   @Test
+  public void testPopulateExamplesOnChildNode() throws InvalidFeatureValueException {
+
+    Feature bestFeature = new FeatureImpl("Wind");
+    bestFeature.addNewValue("Weak");
+    bestFeature.addNewValue("Strong");
+
+    Map<String, Instances> examples = this.tree.populateExamples(bestFeature, this.instances);
+
+    assertEquals(new Integer(8), examples.get("Weak").getNumberOfInstances());
+    assertEquals(new Integer(6), examples.get("Strong").getNumberOfInstances());
+  }
+
+  @Test(expected = InvalidFeatureValueException.class)
+  public void testPopulateExamplesOnChildNodeWithInvalidFeatureValue() throws InvalidFeatureValueException {
+
+    Feature bestFeature = new FeatureImpl("Wind");
+    bestFeature.addNewValue("Weak");
+    bestFeature.addNewValue("Strong");
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput("Yes");
+    instance.setNewFeature("Outlook", "Invalid");
+    instance.setNewFeature("Temperature", "Invalid");
+    instance.setNewFeature("Humidity", "Invalid");
+    instance.setNewFeature("Wind", "Invalid");
+    this.instances.addNewInstance(instance);
+
+    Map<String, Instances> examples = this.tree.populateExamples(bestFeature, this.instances);
+  }
+
+  @Test
   public void testFullFlow() throws EmptyInstancesException, EmptyFeaturesException, InvalidFeatureValueException {
 
-    this.tree.buildDecisionTree(this.features, this.instances);
+    Node tree = this.tree.buildDecisionTree(this.features, this.instances);
+
+    //TODO finish the test
   }
 }

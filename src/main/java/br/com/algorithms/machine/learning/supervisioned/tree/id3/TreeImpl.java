@@ -30,11 +30,15 @@ public class TreeImpl implements Tree {
 
     Feature bestFeature = getBestFeature(features, instances, outputQuant);
 
-    Features filteredFeatures = getRaimingFeatures(features, bestFeature);
+    Features filteredFeatures = getRemaingFeatures(features, bestFeature);
 
     Node root = buildFeatureNode(bestFeature);
 
-    return null;
+    Map<String, Instances> instancesByFeatureValue = populateExamples(bestFeature, instances);
+
+    buildRemainTreeNodes(bestFeature, filteredFeatures, root, instancesByFeatureValue);
+
+    return root;
   }
 
   private void validateParameters(Features features, Instances instances) throws EmptyFeaturesException, EmptyInstancesException {
@@ -78,7 +82,7 @@ public class TreeImpl implements Tree {
 
     for(Feature feature : features.getFeatures()) {
 
-      Map<String, Instances> quantityByFeatureValue = TreeUtils.calculateQuantityByFeatureValue(instances, feature);
+      Map<String, Instances> quantityByFeatureValue = TreeUtils.generateMapOfInstancesByFeatureValue(instances, feature);
 
       Double featureInformationGain = InformationGain.calculateInformationGain(entropy, feature, quantityByFeatureValue, instances.getNumberOfInstances());
 
@@ -91,7 +95,7 @@ public class TreeImpl implements Tree {
     return bestFeature;
   }
 
-  protected Features getRaimingFeatures(Features features, Feature bestFeature) {
+  protected Features getRemaingFeatures(Features features, Feature bestFeature) {
 
     Features filteredList = new FeaturesImpl();
 
@@ -114,5 +118,21 @@ public class TreeImpl implements Tree {
     nodeBuilder.setNodeFeature(bestFeature);
 
     return nodeBuilder.buildNode();
+  }
+
+  protected Map<String, Instances> populateExamples(Feature bestFeature, Instances instances) throws InvalidFeatureValueException {
+
+    Map<String, Instances> instancesByFeatureValue = TreeUtils.generateMapOfInstancesByFeatureValue(instances, bestFeature);
+
+    return  instancesByFeatureValue;
+  }
+
+  private void buildRemainTreeNodes(Feature bestFeature, Features filteredFeatures, Node root, Map<String, Instances> instancesByFeatureValue) throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
+    for(String featureValue : bestFeature.getValues()) {
+
+      Node childNode = buildDecisionTree(filteredFeatures, instancesByFeatureValue.get(featureValue));
+
+      root.setNewChildNode(featureValue, childNode);
+    }
   }
 }
