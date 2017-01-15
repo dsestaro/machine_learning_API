@@ -38,14 +38,18 @@ public class TreeUtils {
     }
   }
 
-  public static Map<String, Instances> calculateQuantityByFeatureValue(Instances instances, Feature feature) throws InvalidFeatureValueException {
+  public static Map<String, Instances> generateMapOfInstancesByFeatureValue(Instances instances, Feature feature) throws InvalidFeatureValueException {
 
     Map<String, Instances> quantityByFeatureValue = new HashMap<String, Instances>();
 
-    for(String featureValue : feature.getValues()) {
+    instantiateFeaturesInstancesMap(feature, quantityByFeatureValue);
 
-      quantityByFeatureValue.put(featureValue, new InstancesImpl());
-    }
+    populateMapOfInstancesByFeatureValue(instances, feature, quantityByFeatureValue);
+
+    return quantityByFeatureValue;
+  }
+
+  public static void populateMapOfInstancesByFeatureValue(Instances instances, Feature feature, Map<String, Instances> quantityByFeatureValue) throws InvalidFeatureValueException {
 
     for(Instance instance : instances.getInstances()) {
 
@@ -57,7 +61,13 @@ public class TreeUtils {
         throw new InvalidFeatureValueException(instance.getFeatureValue(feature.getName()));
       }
     }
+  }
 
-    return quantityByFeatureValue;
+  public static void instantiateFeaturesInstancesMap(Feature feature, Map<String, Instances> map) {
+
+    for(String featureValue : feature.getValues()) {
+
+      map.put(featureValue, new InstancesImpl());
+    }
   }
 }

@@ -1,8 +1,8 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.utils;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.Tree;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
@@ -11,9 +11,12 @@ import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.Inv
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 public class TreeUtilsTests {
 
@@ -160,7 +163,7 @@ public class TreeUtilsTests {
   @Test
   public void testCalculateQuantityByFeatureValue() throws InvalidFeatureValueException {
 
-    Map<String, Instances> quantity = TreeUtils.calculateQuantityByFeatureValue(this.instances, this.feature);
+    Map<String, Instances> quantity = TreeUtils.generateMapOfInstancesByFeatureValue(this.instances, this.feature);
 
     assertEquals(new Integer(8), quantity.get("Weak").getNumberOfInstances());
     assertEquals(new Integer(6), quantity.get("Strong").getNumberOfInstances());
@@ -177,6 +180,50 @@ public class TreeUtilsTests {
     instance.setNewFeature("Wind", "Invalid");
     this.instances.addNewInstance(instance);
 
-    Map<String, Instances> quantity = TreeUtils.calculateQuantityByFeatureValue(this.instances, this.feature);
+    Map<String, Instances> quantity = TreeUtils.generateMapOfInstancesByFeatureValue(this.instances, this.feature);
+  }
+
+  @Test
+  public void testPopulateMapOfInstancesByFeatureValue() throws InvalidFeatureValueException {
+
+    Map<String, Instances> map = new HashMap<String, Instances>();
+
+    TreeUtils.instantiateFeaturesInstancesMap(this.feature, map);
+
+    TreeUtils.populateMapOfInstancesByFeatureValue(this.instances, this.feature, map);
+
+    assertEquals(new Integer(8), map.get("Weak").getNumberOfInstances());
+    assertEquals(new Integer(6), map.get("Strong").getNumberOfInstances());
+  }
+
+  @Test(expected = InvalidFeatureValueException.class)
+  public void testPopulateMapOfInstancesByFeatureValueWithInvalidFeatures() throws InvalidFeatureValueException {
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput("Yes");
+    instance.setNewFeature("Outlook", "Invalid");
+    instance.setNewFeature("Temperature", "Invalid");
+    instance.setNewFeature("Humidity", "Invalid");
+    instance.setNewFeature("Wind", "Invalid");
+    this.instances.addNewInstance(instance);
+
+    Map<String, Instances> map = new HashMap<String, Instances>();
+
+    TreeUtils.instantiateFeaturesInstancesMap(this.feature, map);
+
+    TreeUtils.populateMapOfInstancesByFeatureValue(this.instances, this.feature, map);
+  }
+
+  @Test
+  public void testInstantiateFeaturesInstancesMap() {
+
+    Map<String, Instances> map = new HashMap<String, Instances>();
+
+    TreeUtils.instantiateFeaturesInstancesMap(this.feature, map);
+
+    for(String value : this.feature.getValues()) {
+
+      assertNotNull(map.get(value));
+    }
   }
 }
