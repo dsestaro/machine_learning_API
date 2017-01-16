@@ -2,6 +2,7 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidNodeInformationException;
+import br.com.algorithms.machine.learning.utils.StringUtils;
 
 public class NodeBuilder {
 
@@ -87,7 +88,7 @@ public class NodeBuilder {
 
   private void validateOutput() {
 
-    if(this.node.getOutput() == null || this.node.getOutput().length() == 0) {
+    if(StringUtils.isEmpty(this.node.getOutput())) {
 
       throwsNodeInformationException(INVALID_OUTPUT_VALUE);
     }

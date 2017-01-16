@@ -1,7 +1,7 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureInformationException;
-import com.sun.deploy.util.StringUtils;
+import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FeatureImpl implements Feature {
 
   private void validateParameters(String name) {
 
-    if(name == null || name.length() == 0) {
+    if(StringUtils.isEmpty(name)) {
 
       throw new InvalidFeatureInformationException(INVALID_NAME);
     }
