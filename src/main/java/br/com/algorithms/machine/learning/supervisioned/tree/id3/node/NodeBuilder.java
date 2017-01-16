@@ -5,6 +5,10 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.Inval
 
 public class NodeBuilder {
 
+  private static final String INVALID_NODE_TYPE = "The node type cannot be null.";
+  private static final String INVALID_FEATURE_VALUE = "The feature value cannot be null when the node type is equals " + NodeType.FEATURE_NODE + ".";
+  private static final String INVALID_OUTPUT_VALUE = "The output value cannot be null when the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".";
+
   private NodeImpl node;
 
   public NodeBuilder() {
@@ -53,7 +57,7 @@ public class NodeBuilder {
 
     if(this.node.getNodeType() == null) {
 
-      throwsNodeInformationException("The node type cannot be null.");
+      throwsNodeInformationException(INVALID_NODE_TYPE);
     }
   }
 
@@ -69,7 +73,7 @@ public class NodeBuilder {
 
     if(this.node.getFeature() == null) {
 
-      throwsNodeInformationException("The feature value cannot be null when the node type is equals " + NodeType.FEATURE_NODE + ".");
+      throwsNodeInformationException(INVALID_FEATURE_VALUE);
     }
   }
 
@@ -83,9 +87,9 @@ public class NodeBuilder {
 
   private void validateOutput() {
 
-    if(this.node.getOutput() == null || this.node.getOutput().isEmpty()) {
+    if(this.node.getOutput() == null || this.node.getOutput().length() == 0) {
 
-      throwsNodeInformationException("The output value cannot be null when the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".");
+      throwsNodeInformationException(INVALID_OUTPUT_VALUE);
     }
   }
 
