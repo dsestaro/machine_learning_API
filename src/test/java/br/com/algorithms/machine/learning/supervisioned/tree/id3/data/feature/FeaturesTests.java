@@ -15,13 +15,10 @@ public class FeaturesTests {
   @Before
   public void instantiateFeatures() {
 
-    String name1 = "Feature1";
-    String name2 = "Feature2";
-
     this.features = new FeaturesImpl();
 
-    this.features.addFeature(name1);
-    this.features.addFeature(name2);
+    this.features.addFeature(new FeatureImpl("Feature1"));
+    this.features.addFeature(new FeatureImpl("Feature2"));
   }
 
   @Test
@@ -31,33 +28,21 @@ public class FeaturesTests {
   }
 
   @Test
-  public void testAddFeatureUsingName() {
-
-    String name = "Feature1";
-
-    this.features.addFeature(name);
-  }
-
-  @Test
-  public void testAddFeatureUsingNameAndValues() {
-
-    String name = "Feature1";
-    List<String> values = new ArrayList<String>();
-
-    values.add("Value1");
-    values.add("Value2");
-
-    this.features.addFeature(name, values);
-  }
-
-  @Test
   public void testAddFeatureUsingFeatureObject() {
 
-    String name = "Feature1";
-
-    Feature feature = new FeatureImpl(name);
+    Feature feature = new FeatureImpl("Feature1");
 
     this.features.addFeature(feature);
+  }
+
+  @Test
+  public void testAddFeatureUsingFTwoeatureObjectsWithSameName() {
+
+    Feature feature = new FeatureImpl("Feature1");
+
+    this.features.addFeature(feature);
+
+    assertEquals(new Integer(2), this.features.getNumberOfFeatures());
   }
 
   @Test

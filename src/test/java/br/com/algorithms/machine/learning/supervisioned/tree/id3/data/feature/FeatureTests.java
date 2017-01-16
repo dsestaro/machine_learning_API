@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureInformationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,18 @@ public class FeatureTests {
   public void testFeatureInstantiation() {
 
     new FeatureImpl("Test");
+  }
+
+  @Test(expected = InvalidFeatureInformationException.class)
+  public void testFeatureInstantiationWithNullParameters() {
+
+    new FeatureImpl(null);
+  }
+
+  @Test(expected = InvalidFeatureInformationException.class)
+  public void testFeatureInstantiationWithEmptyParameters() {
+
+    new FeatureImpl("");
   }
 
   @Test

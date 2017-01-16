@@ -12,30 +12,12 @@ public class FeaturesImpl implements Features {
     this.features = new ArrayList<Feature>();
   }
 
-  public FeaturesImpl addFeature(String name) {
-
-    this.features.add(createNewFeature(name));
-
-    return this;
-  }
-
-  public FeaturesImpl addFeature(String name, List<String> values) {
-
-    Feature feature = createNewFeature(name);
-
-    for(String value : values) {
-
-      feature.addNewValue(value);
-    }
-
-    this.features.add(feature);
-
-    return this;
-  }
-
   public FeaturesImpl addFeature(Feature feature) {
 
-    this.features.add(feature);
+    if(!this.features.contains(feature)) {
+
+      this.features.add(feature);
+    }
 
     return this;
   }
