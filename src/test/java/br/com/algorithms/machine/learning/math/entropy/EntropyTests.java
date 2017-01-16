@@ -52,4 +52,14 @@ public class EntropyTests {
 
     assertEquals(new Double(0), entropy);
   }
+
+  @Test
+  public void testEntropyCalculationWithAnEmptySet() {
+
+    Map<String, Integer> quantities = new HashMap<String, Integer>();
+
+    Double entropy = Entropy.calculateEntropy(quantities, 0);
+
+    assertEquals(new Double(0), entropy);
+  }
 }

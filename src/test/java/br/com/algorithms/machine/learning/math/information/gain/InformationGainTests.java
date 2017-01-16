@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.math.information.gain;
 
+import br.com.algorithms.machine.learning.math.information.gain.exception.InvalidQuantityMapByFeatureValueInitializationException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
@@ -110,5 +111,45 @@ public class InformationGainTests {
     Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
 
     assertEquals(new Double(0.0478410717376383), informationGain);
+  }
+
+  @Test
+  public void testCalculateInformationGainWithNoInstances() {
+
+    Double entropy = 0.94;
+
+    FeatureImpl feature = new FeatureImpl("Wind");
+    feature.addNewValue("Strong");
+    feature.addNewValue("Weak");
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put("Strong", new InstancesImpl());
+    quantityMap.put("Weak", new InstancesImpl());
+
+    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
+
+    assertEquals(new Double(0.94), informationGain);
+  }
+
+  @Test(expected = InvalidQuantityMapByFeatureValueInitializationException.class)
+  public void testCalculateInformationGainWithInvalidFeature() {
+
+    Double entropy = 0.94;
+
+    FeatureImpl feature = new FeatureImpl("Wind");
+    feature.addNewValue("Strong");
+    feature.addNewValue("Weak");
+
+    Instances instances = new InstancesImpl();
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput("No");
+    instance.setNewFeature("Wind", "Invalid");
+    instances.addNewInstance(instance);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put("Weak", instances);
+
+    InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
   }
 }
