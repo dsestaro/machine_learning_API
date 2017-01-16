@@ -323,6 +323,28 @@ public class TreeTests {
 
     Node tree = this.tree.buildDecisionTree(this.features, this.instances);
 
-    //TODO finish the test
+    assertEquals(NodeType.FEATURE_NODE, tree.getNodeType());
+    assertEquals("Outlook", tree.getFeature().getName());
+
+    assertEquals(NodeType.OUTPUT_LEAF_NODE, tree.getChildNode("Overcast").getNodeType());
+    assertEquals("Yes", tree.getChildNode("Overcast").getOutput());
+
+    assertEquals(NodeType.FEATURE_NODE, tree.getChildNode("Sunny").getNodeType());
+    assertEquals("Humidity", tree.getChildNode("Sunny").getFeature().getName());
+
+    assertEquals(NodeType.OUTPUT_LEAF_NODE, tree.getChildNode("Sunny").getChildNode("High").getNodeType());
+    assertEquals("No", tree.getChildNode("Sunny").getChildNode("High").getOutput());
+
+    assertEquals(NodeType.OUTPUT_LEAF_NODE, tree.getChildNode("Sunny").getChildNode("Normal").getNodeType());
+    assertEquals("Yes", tree.getChildNode("Sunny").getChildNode("Normal").getOutput());
+
+    assertEquals(NodeType.FEATURE_NODE, tree.getChildNode("Rain").getNodeType());
+    assertEquals("Wind", tree.getChildNode("Rain").getFeature().getName());
+
+    assertEquals(NodeType.OUTPUT_LEAF_NODE, tree.getChildNode("Rain").getChildNode("Strong").getNodeType());
+    assertEquals("No", tree.getChildNode("Rain").getChildNode("Strong").getOutput());
+
+    assertEquals(NodeType.OUTPUT_LEAF_NODE, tree.getChildNode("Rain").getChildNode("Weak").getNodeType());
+    assertEquals("Yes", tree.getChildNode("Rain").getChildNode("Weak").getOutput());
   }
 }
