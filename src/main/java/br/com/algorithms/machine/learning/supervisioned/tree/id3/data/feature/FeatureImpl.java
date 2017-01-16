@@ -26,7 +26,10 @@ public class FeatureImpl implements Feature {
 
   public FeatureImpl addNewValue(String value) {
 
-    this.values.add(value);
+    if(!this.values.contains(value)) {
+
+      this.values.add(value);
+    }
 
     return this;
   }
