@@ -41,14 +41,12 @@ public class InstancesTests {
   @Test
   public void testGetInstancesByIndex() {
 
-    String output = "Valid";
     Instance instance = new InstanceImpl();
-
-    instance.setExpectedOutput(output);
+    instance.setExpectedOutput("Valid");
 
     this.instances.addNewInstance(instance);
 
-    assertEquals(output, this.instances.getInstanceByIndex(2).getExpectedOutput());
+    assertEquals("Valid", this.instances.getInstanceByIndex(2).getExpectedOutput());
   }
 
   @Test

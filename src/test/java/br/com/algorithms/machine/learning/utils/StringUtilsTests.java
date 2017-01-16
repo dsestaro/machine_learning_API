@@ -1,9 +1,26 @@
-package br.com.algorithms.machine.learning.supervisioned.tree.utils;
+package br.com.algorithms.machine.learning.utils;
 
-public class StringUtils {
+import org.junit.Test;
 
-  public static boolean isEmpty(String value) {
+import static org.junit.Assert.assertEquals;
 
-    return (value == null || value.length() == 0);
+public class StringUtilsTests {
+
+  @Test
+  public void testValidateOfEmtpyString() {
+
+    assertEquals(true, StringUtils.isEmpty(""));
+  }
+
+  @Test
+  public void testValidateOfNullString() {
+
+    assertEquals(true, StringUtils.isEmpty(null));
+  }
+
+  @Test
+  public void testValidateOfValidString() {
+
+    assertEquals(false, StringUtils.isEmpty("Valid"));
   }
 }

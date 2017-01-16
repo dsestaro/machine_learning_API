@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidInstanceInformationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,14 +13,10 @@ public class InstanceTests {
   @Before
   public void instantiateInstance() {
 
-    String output = "Output1";
-    String featureName = "FeatureName";
-    String featureValue = "FeatureValue";
-
     this.instance = new InstanceImpl();
 
-    this.instance.setExpectedOutput(output);
-    this.instance.setNewFeature(featureName, featureValue);
+    this.instance.setExpectedOutput("Output1");
+    this.instance.setNewFeature("FeatureName", "FeatureValue");
   }
 
   @Test
@@ -31,22 +28,33 @@ public class InstanceTests {
   @Test
   public void testDataInsertion() {
 
-    String output = "Output1";
-    String featureName = "FeatureName";
-    String featureValue = "FeatureValue";
+    this.instance.setExpectedOutput("Output");
+    this.instance.setNewFeature("NewFeature", "FeatureValue");
+  }
 
-    this.instance.setExpectedOutput(output);
-    this.instance.setNewFeature(featureName, featureValue);
+  @Test(expected = InvalidInstanceInformationException.class)
+  public void testDataInsertionOfNullFeatureName() {
+
+    this.instance.setNewFeature(null, "FeatureValue");
+  }
+
+  @Test(expected = InvalidInstanceInformationException.class)
+  public void testDataInsertionOfEmptyFeatureName() {
+
+    this.instance.setNewFeature("", "FeatureValue");
+  }
+
+  @Test(expected = InvalidInstanceInformationException.class)
+  public void testDataInsertionOfSameValueTwice() {
+
+    this.instance.setNewFeature("NewFeature", "FeatureValue");
+    this.instance.setNewFeature("NewFeature", "FeatureValue");
   }
 
   @Test
   public void testDataRetrieve() {
 
-    String output = "Output1";
-    String featureName = "FeatureName";
-    String featureValue = "FeatureValue";
-
-    assertEquals(output, this.instance.getExpectedOutput());
-    assertEquals(featureValue, this.instance.getFeatureValue(featureName));
+    assertEquals("Output1", this.instance.getExpectedOutput());
+    assertEquals("FeatureValue", this.instance.getFeatureValue("FeatureName"));
   }
 }
