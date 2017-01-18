@@ -18,48 +18,80 @@ public class EntropyTests {
   @Test
   public void testEntropyCalculation() {
 
+    String nameOfFirstOutput = "Positive";
+    String nameOfSecondOutput = "Negative";
+
+    int numberOfFirstOutput = 9;
+    int numberOfSecondOutput = 5;
+
+    int totalNumberOfOutputs = numberOfFirstOutput + numberOfSecondOutput;
+
+    Double expectedEntropy = 0.9402859586706309;
+
     Map<String, Integer> quantities = new HashMap<String, Integer>();
 
-    quantities.put("Positive", 9);
-    quantities.put("Negatives", 5);
+    quantities.put(nameOfFirstOutput, numberOfFirstOutput);
+    quantities.put(nameOfSecondOutput, numberOfSecondOutput);
 
-    Double entropy = Entropy.calculateEntropy(quantities, 14);
+    Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
 
-    assertEquals(new Double(0.9402859586706309), entropy);
+    assertEquals(expectedEntropy, entropy);
   }
 
   @Test
   public void testEntropyCalculationWithADifferentSet() {
 
+    String nameOfFirstOutput = "Positive";
+    String nameOfSecondOutput = "Negative";
+
+    int numberOfFirstOutput = 9;
+    int numberOfSecondOutput = 9;
+
+    int totalNumberOfOutputs = numberOfFirstOutput + numberOfSecondOutput;
+
+    Double expectedEntropy = 1.0;
+
     Map<String, Integer> quantities = new HashMap<String, Integer>();
 
-    quantities.put("Positive", 9);
-    quantities.put("Negatives", 9);
+    quantities.put(nameOfFirstOutput, numberOfFirstOutput);
+    quantities.put(nameOfSecondOutput, numberOfSecondOutput);
 
-    Double entropy = Entropy.calculateEntropy(quantities, 18);
+    Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
 
-    assertEquals(new Double(1), entropy);
+    assertEquals(expectedEntropy, entropy);
   }
 
   @Test
   public void testEntropyCalculationWithAnOneDimensionalSet() {
 
+    String nameOfFirstOutput = "Positive";
+
+    int numberOfFirstOutput = 10;
+
+    int totalNumberOfOutputs = numberOfFirstOutput;
+
+    Double expectedEntropy = 0.0;
+
     Map<String, Integer> quantities = new HashMap<String, Integer>();
 
-    quantities.put("Positive", 10);
+    quantities.put(nameOfFirstOutput, numberOfFirstOutput);
 
-    Double entropy = Entropy.calculateEntropy(quantities, 10);
+    Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
 
-    assertEquals(new Double(0), entropy);
+    assertEquals(expectedEntropy, entropy);
   }
 
   @Test
   public void testEntropyCalculationWithAnEmptySet() {
 
+    int totalNumberOfOutputs = 0;
+
+    Double expectedEntropy = 0.0;
+
     Map<String, Integer> quantities = new HashMap<String, Integer>();
 
-    Double entropy = Entropy.calculateEntropy(quantities, 0);
+    Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
 
-    assertEquals(new Double(0), entropy);
+    assertEquals(expectedEntropy, entropy);
   }
 }
