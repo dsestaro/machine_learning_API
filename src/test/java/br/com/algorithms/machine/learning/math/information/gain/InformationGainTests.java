@@ -26,109 +26,126 @@ public class InformationGainTests {
   public void testCalculateInformationGain() {
 
     Double entropy = 0.94;
+    Double expectedInformationGain = 0.0478410717376383;
 
-    FeatureImpl feature = new FeatureImpl("Wind");
-    feature.addNewValue("Strong");
-    feature.addNewValue("Weak");
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+
+    String negativeOutput = "No";
+    String positiveOutput = "Yes";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
 
     Instances instancesWeak = new InstancesImpl();
     Instances instancesStrong = new InstancesImpl();
 
     Instance instance1 = new InstanceImpl();
-    instance1.setExpectedOutput("No");
-    instance1.setNewFeature("Wind", "Weak");
+    instance1.setExpectedOutput(negativeOutput);
+    instance1.setNewFeature(featureName, featureFirstValue);
     instancesWeak.addNewInstance(instance1);
 
     Instance instance2 = new InstanceImpl();
-    instance2.setExpectedOutput("No");
-    instance2.setNewFeature("Wind", "Strong");
+    instance2.setExpectedOutput(negativeOutput);
+    instance2.setNewFeature(featureName, featureSecondValue);
     instancesStrong.addNewInstance(instance2);
 
     Instance instance3 = new InstanceImpl();
-    instance3.setExpectedOutput("Yes");
-    instance3.setNewFeature("Wind", "Weak");
+    instance3.setExpectedOutput(positiveOutput);
+    instance3.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance3);
 
     Instance instance4 = new InstanceImpl();
-    instance4.setExpectedOutput("Yes");
-    instance4.setNewFeature("Wind", "Weak");
+    instance4.setExpectedOutput(positiveOutput);
+    instance4.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance4);
 
     Instance instance5 = new InstanceImpl();
-    instance5.setExpectedOutput("Yes");
-    instance5.setNewFeature("Wind", "Weak");
+    instance5.setExpectedOutput(positiveOutput);
+    instance5.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance5);
 
     Instance instance6 = new InstanceImpl();
-    instance6.setExpectedOutput("No");
-    instance6.setNewFeature("Wind", "Strong");
+    instance6.setExpectedOutput(negativeOutput);
+    instance6.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance6);
 
     Instance instance7 = new InstanceImpl();
-    instance7.setExpectedOutput("Yes");
-    instance7.setNewFeature("Wind", "Strong");
+    instance7.setExpectedOutput(positiveOutput);
+    instance7.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance7);
 
     Instance instance8 = new InstanceImpl();
-    instance8.setExpectedOutput("No");
-    instance8.setNewFeature("Wind", "Weak");
+    instance8.setExpectedOutput(negativeOutput);
+    instance8.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance8);
 
     Instance instance9 = new InstanceImpl();
-    instance9.setExpectedOutput("Yes");
-    instance9.setNewFeature("Wind", "Weak");
+    instance9.setExpectedOutput(positiveOutput);
+    instance9.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance9);
 
     Instance instance10 = new InstanceImpl();
-    instance10.setExpectedOutput("Yes");
-    instance10.setNewFeature("Wind", "Weak");
+    instance10.setExpectedOutput(positiveOutput);
+    instance10.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance10);
 
     Instance instance11 = new InstanceImpl();
-    instance11.setExpectedOutput("Yes");
-    instance11.setNewFeature("Wind", "Strong");
+    instance11.setExpectedOutput(positiveOutput);
+    instance11.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance11);
 
     Instance instance12 = new InstanceImpl();
-    instance12.setExpectedOutput("Yes");
-    instance12.setNewFeature("Wind", "Strong");
+    instance12.setExpectedOutput(positiveOutput);
+    instance12.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance12);
 
     Instance instance13 = new InstanceImpl();
-    instance13.setExpectedOutput("Yes");
-    instance13.setNewFeature("Wind", "Weak");
+    instance13.setExpectedOutput(positiveOutput);
+    instance13.setNewFeature(featureName, featureSecondValue);
     instancesWeak.addNewInstance(instance13);
 
     Instance instance14 = new InstanceImpl();
-    instance14.setExpectedOutput("No");
-    instance14.setNewFeature("Wind", "Strong");
+    instance14.setExpectedOutput(negativeOutput);
+    instance14.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance14);
 
     Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put("Strong", instancesStrong);
-    quantityMap.put("Weak", instancesWeak);
+    quantityMap.put(featureFirstValue, instancesStrong);
+    quantityMap.put(featureSecondValue, instancesWeak);
 
-    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
+    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
 
-    assertEquals(new Double(0.0478410717376383), informationGain);
+    assertEquals(expectedInformationGain, informationGain);
   }
 
   @Test
   public void testCalculateInformationGainWithNoInstances() {
 
     Double entropy = 0.94;
+    Double expectedInformationGain = 0.94;
 
-    FeatureImpl feature = new FeatureImpl("Wind");
-    feature.addNewValue("Strong");
-    feature.addNewValue("Weak");
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
 
     Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put("Strong", new InstancesImpl());
-    quantityMap.put("Weak", new InstancesImpl());
+    quantityMap.put(featureFirstValue, new InstancesImpl());
+    quantityMap.put(featureSecondValue, new InstancesImpl());
 
-    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
+    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
 
-    assertEquals(new Double(0.94), informationGain);
+    assertEquals(expectedInformationGain, informationGain);
   }
 
   @Test(expected = InvalidQuantityMapByFeatureValueInitializationException.class)
@@ -136,20 +153,29 @@ public class InformationGainTests {
 
     Double entropy = 0.94;
 
-    FeatureImpl feature = new FeatureImpl("Wind");
-    feature.addNewValue("Strong");
-    feature.addNewValue("Weak");
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+    String featureInvalidValue = "Invalid";
+
+    String negativeOutput = "No";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
 
     Instances instances = new InstancesImpl();
 
     Instance instance = new InstanceImpl();
-    instance.setExpectedOutput("No");
-    instance.setNewFeature("Wind", "Invalid");
+    instance.setExpectedOutput(negativeOutput);
+    instance.setNewFeature(featureName, featureInvalidValue);
     instances.addNewInstance(instance);
 
     Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put("Weak", instances);
+    quantityMap.put(featureSecondValue, instances);
 
-    InformationGain.calculateInformationGain(entropy, feature, quantityMap, 14);
+    InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
   }
 }
