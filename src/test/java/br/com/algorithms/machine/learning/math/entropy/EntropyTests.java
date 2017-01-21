@@ -89,7 +89,7 @@ public class EntropyTests {
   @Test
   public void testEntropyCalculation_EmptySet() {
 
-    int totalNumberOfOutputs = 0;
+    int totalNumberOfOutputs = 10;
 
     Double expectedEntropy = 0.0;
 
@@ -121,7 +121,7 @@ public class EntropyTests {
   }
 
   @Test
-  public void testEntropyCalculation_ZeroNumberOfOutputsWithVAluesOnMap() {
+  public void testEntropyCalculation_ZeroNumberOfOutputsWithValuesOnMap() {
 
     String nameOfFirstOutput = "Positive";
 
