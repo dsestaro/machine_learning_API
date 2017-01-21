@@ -1,7 +1,7 @@
 package br.com.algorithms.machine.learning.math.information.gain;
 
-import br.com.algorithms.machine.learning.math.information.gain.exception.InvalidQuantityMapByFeatureValueInitializationException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
+import br.com.algorithms.machine.learning.math.information.gain.exception.InvalidFeatureValueException;
+import br.com.algorithms.machine.learning.math.information.gain.exception.InvalidInformationGainParametersException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
@@ -13,13 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class InformationGainTests {
 
   @Test
   public void testInformationGainInstantiation() {
 
-    new InformationGain();
+    InformationGain info = new InformationGain();
+
+    assertNotNull(info);
   }
 
   @Test
@@ -44,6 +48,192 @@ public class InformationGainTests {
     Instances instancesWeak = new InstancesImpl();
     Instances instancesStrong = new InstancesImpl();
 
+    populateInstances(featureName, featureFirstValue, featureSecondValue, negativeOutput, positiveOutput, instancesWeak, instancesStrong);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put(featureFirstValue, instancesStrong);
+    quantityMap.put(featureSecondValue, instancesWeak);
+
+    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+    assertEquals(expectedInformationGain, informationGain);
+  }
+
+  @Test
+  public void testCalculateInformationGain_NoInstances() {
+
+    Double entropy = 0.94;
+    Double expectedInformationGain = 0.94;
+
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put(featureFirstValue, new InstancesImpl());
+    quantityMap.put(featureSecondValue, new InstancesImpl());
+
+    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+    assertEquals(expectedInformationGain, informationGain);
+  }
+
+  @Test
+  public void testCalculateInformationGain_InvalidFeature() {
+
+    Double entropy = 0.94;
+
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+    String featureInvalidValue = "Invalid";
+
+    String negativeOutput = "No";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
+
+    Instances instances = new InstancesImpl();
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput(negativeOutput);
+    instance.setNewFeature(featureName, featureInvalidValue);
+    instances.addNewInstance(instance);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put(featureSecondValue, instances);
+
+    try {
+
+      InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+      fail("InvalidFeatureValueException should be thrown.");
+    } catch (InvalidFeatureValueException e) {
+
+      assertEquals(InvalidFeatureValueException.ERROR_MESSAGE, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testCalculateInformationGain_ZeroNumberOfInstances() {
+
+    Double entropy = 0.94;
+
+    int numberOfInstances = 0;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+
+    String negativeOutput = "No";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+
+    Instances instances = new InstancesImpl();
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput(negativeOutput);
+    instance.setNewFeature(featureName, featureFirstValue);
+    instances.addNewInstance(instance);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put(featureFirstValue, instances);
+
+    try {
+
+      InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+      fail("InvalidInformationGainParametersException should be thrown.");
+    } catch (InvalidInformationGainParametersException e) {
+
+      assertEquals(InformationGain.INVALID_INSTANCES_QUANTITY, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testCalculateInformationGain_NullQuantityMap() {
+
+    Double entropy = 0.94;
+
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureFirstValue = "Strong";
+    String featureSecondValue = "Weak";
+    String featureInvalidValue = "Invalid";
+
+    String negativeOutput = "No";
+
+    FeatureImpl feature = new FeatureImpl(featureName);
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
+
+    Instances instances = new InstancesImpl();
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput(negativeOutput);
+    instance.setNewFeature(featureName, featureInvalidValue);
+    instances.addNewInstance(instance);
+
+    Map<String, Instances> quantityMap = null;
+
+    try {
+
+      InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+      fail("InvalidInformationGainParametersException should be thrown.");
+    } catch (InvalidInformationGainParametersException e) {
+
+      assertEquals(InformationGain.INVALID_MAP, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testCalculateInformationGain_NullFeature() {
+
+    Double entropy = 0.94;
+
+    int numberOfInstances = 14;
+
+    String featureName = "Wind";
+    String featureSecondValue = "Weak";
+    String featureInvalidValue = "Invalid";
+
+    String negativeOutput = "No";
+
+    FeatureImpl feature = null;
+
+    Instances instances = new InstancesImpl();
+
+    Instance instance = new InstanceImpl();
+    instance.setExpectedOutput(negativeOutput);
+    instance.setNewFeature(featureName, featureInvalidValue);
+    instances.addNewInstance(instance);
+
+    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
+    quantityMap.put(featureSecondValue, instances);
+
+    try {
+
+      InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
+
+      fail("InvalidInformationGainParametersException should be thrown.");
+    } catch (InvalidInformationGainParametersException e) {
+
+      assertEquals(InformationGain.INVALID_FEATURE, e.getMessage());
+    }
+  }
+
+  private void populateInstances(String featureName, String featureFirstValue, String featureSecondValue, String negativeOutput, String positiveOutput, Instances instancesWeak, Instances instancesStrong) {
     Instance instance1 = new InstanceImpl();
     instance1.setExpectedOutput(negativeOutput);
     instance1.setNewFeature(featureName, featureFirstValue);
@@ -113,69 +303,5 @@ public class InformationGainTests {
     instance14.setExpectedOutput(negativeOutput);
     instance14.setNewFeature(featureName, featureFirstValue);
     instancesStrong.addNewInstance(instance14);
-
-    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put(featureFirstValue, instancesStrong);
-    quantityMap.put(featureSecondValue, instancesWeak);
-
-    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
-
-    assertEquals(expectedInformationGain, informationGain);
-  }
-
-  @Test
-  public void testCalculateInformationGainWithNoInstances() {
-
-    Double entropy = 0.94;
-    Double expectedInformationGain = 0.94;
-
-    int numberOfInstances = 14;
-
-    String featureName = "Wind";
-    String featureFirstValue = "Strong";
-    String featureSecondValue = "Weak";
-
-    FeatureImpl feature = new FeatureImpl(featureName);
-    feature.addNewValue(featureFirstValue);
-    feature.addNewValue(featureSecondValue);
-
-    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put(featureFirstValue, new InstancesImpl());
-    quantityMap.put(featureSecondValue, new InstancesImpl());
-
-    Double informationGain = InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
-
-    assertEquals(expectedInformationGain, informationGain);
-  }
-
-  @Test(expected = InvalidQuantityMapByFeatureValueInitializationException.class)
-  public void testCalculateInformationGainWithInvalidFeature() {
-
-    Double entropy = 0.94;
-
-    int numberOfInstances = 14;
-
-    String featureName = "Wind";
-    String featureFirstValue = "Strong";
-    String featureSecondValue = "Weak";
-    String featureInvalidValue = "Invalid";
-
-    String negativeOutput = "No";
-
-    FeatureImpl feature = new FeatureImpl(featureName);
-    feature.addNewValue(featureFirstValue);
-    feature.addNewValue(featureSecondValue);
-
-    Instances instances = new InstancesImpl();
-
-    Instance instance = new InstanceImpl();
-    instance.setExpectedOutput(negativeOutput);
-    instance.setNewFeature(featureName, featureInvalidValue);
-    instances.addNewInstance(instance);
-
-    Map<String, Instances> quantityMap = new HashMap<String, Instances>();
-    quantityMap.put(featureSecondValue, instances);
-
-    InformationGain.calculateInformationGain(entropy, feature, quantityMap, numberOfInstances);
   }
 }
