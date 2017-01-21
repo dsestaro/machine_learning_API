@@ -1,18 +1,22 @@
 package br.com.algorithms.machine.learning.math.entropy;
 
+import br.com.algorithms.machine.learning.math.entropy.exception.InvalidEntropyParametersException;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class EntropyTests {
 
   @Test
   public void testEntropyInstantiation() {
 
-    new Entropy();
+    Entropy entropy = new Entropy();
+
+    assertNotNull(entropy);
   }
 
   @Test
@@ -39,7 +43,7 @@ public class EntropyTests {
   }
 
   @Test
-  public void testEntropyCalculationWithADifferentSet() {
+  public void testEntropyCalculation_DifferentSet() {
 
     String nameOfFirstOutput = "Positive";
     String nameOfSecondOutput = "Negative";
@@ -62,7 +66,7 @@ public class EntropyTests {
   }
 
   @Test
-  public void testEntropyCalculationWithAnOneDimensionalSet() {
+  public void testEntropyCalculation_OneDimensionalSet() {
 
     String nameOfFirstOutput = "Positive";
 
@@ -82,7 +86,7 @@ public class EntropyTests {
   }
 
   @Test
-  public void testEntropyCalculationWithAnEmptySet() {
+  public void testEntropyCalculation_EmptySet() {
 
     int totalNumberOfOutputs = 0;
 
@@ -93,5 +97,47 @@ public class EntropyTests {
     Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
 
     assertEquals(expectedEntropy, entropy);
+  }
+
+  @Test
+  public void testEntropyCalculation_NullSet() {
+
+    int totalNumberOfOutputs = 0;
+
+    Double expectedEntropy = 0.0;
+
+    Map<String, Integer> quantities = null;
+
+    try {
+
+      Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
+    } catch (InvalidEntropyParametersException e) {
+
+      assertEquals(Entropy.INVALID_MAP, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testEntropyCalculation_ZeroNumberOfOutputsWithVAluesOnMap() {
+
+    String nameOfFirstOutput = "Positive";
+
+    int numberOfFirstOutput = 0;
+
+    int totalNumberOfOutputs = numberOfFirstOutput;
+
+    Double expectedEntropy = 0.0;
+
+    Map<String, Integer> quantities = new HashMap<String, Integer>();
+
+    quantities.put(nameOfFirstOutput, numberOfFirstOutput);
+
+    try {
+
+      Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
+    } catch (InvalidEntropyParametersException e) {
+
+      assertEquals(Entropy.INVALID_QUANTITY, e.getMessage());
+    }
   }
 }
