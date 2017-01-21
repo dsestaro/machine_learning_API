@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class EntropyTests {
 
@@ -111,6 +112,8 @@ public class EntropyTests {
     try {
 
       Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
+
+      fail("InvalidEntropyParametersException should be thrown.");
     } catch (InvalidEntropyParametersException e) {
 
       assertEquals(Entropy.INVALID_MAP, e.getMessage());
@@ -135,6 +138,8 @@ public class EntropyTests {
     try {
 
       Double entropy = Entropy.calculateEntropy(quantities, totalNumberOfOutputs);
+
+      fail("InvalidEntropyParametersException should be thrown.");
     } catch (InvalidEntropyParametersException e) {
 
       assertEquals(Entropy.INVALID_QUANTITY, e.getMessage());
