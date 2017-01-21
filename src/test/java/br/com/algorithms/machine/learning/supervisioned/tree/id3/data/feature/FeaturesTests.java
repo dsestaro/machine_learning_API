@@ -1,59 +1,87 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class FeaturesTests {
-
-  private Features features;
-
-  @Before
-  public void instantiateFeatures() {
-
-    this.features = new FeaturesImpl();
-
-    this.features.addFeature(new FeatureImpl("Feature1"));
-    this.features.addFeature(new FeatureImpl("Feature2"));
-  }
 
   @Test
   public void testFeaturesInstantiation() {
 
-    new FeaturesImpl();
+    Features features = new FeaturesImpl();
+
+    assertNotNull(features);
   }
 
   @Test
-  public void testAddFeatureUsingFeatureObject() {
+  public void testAddGetFeature() {
 
-    Feature feature = new FeatureImpl("Feature1");
+    String featureName = "testAddFeature";
+    int initialQuantity = 0;
+    int finalQuantity = 1;
 
-    this.features.addFeature(feature);
+    Feature feature = new FeatureImpl(featureName);
+    Features features = new FeaturesImpl();
+
+    assertEquals(initialQuantity, features.getFeatures().size());
+
+    features.addFeature(feature);
+
+    assertEquals(finalQuantity, features.getFeatures().size());
   }
 
   @Test
-  public void testAddFeatureUsingFTwoeatureObjectsWithSameName() {
+  public void testAddFeature_TwoFeaturesWithSameName() {
 
-    Feature feature = new FeatureImpl("Feature1");
+    String featureName = "testAddFeature";
+    int initialQuantity = 0;
+    int finalQuantity = 1;
 
-    this.features.addFeature(feature);
+    Feature feature = new FeatureImpl(featureName);
+    Feature featureCopy = new FeatureImpl(featureName);
+    Features features = new FeaturesImpl();
 
-    assertEquals(new Integer(2), this.features.getNumberOfFeatures());
+    assertEquals(initialQuantity, features.getFeatures().size());
+
+    features.addFeature(feature);
+    features.addFeature(featureCopy);
+
+    assertEquals(finalQuantity, features.getFeatures().size());
   }
 
   @Test
-  public void testGetFeatures() {
+  public void testAddFeature_NullFeature() {
 
-    assertEquals(2, this.features.getFeatures().size());
+    int initialQuantity = 0;
+    int finalQuantity = 0;
+
+    Feature feature = null;
+    Features features = new FeaturesImpl();
+
+    assertEquals(initialQuantity, features.getFeatures().size());
+
+    features.addFeature(feature);
+
+    assertEquals(finalQuantity, features.getFeatures().size());
   }
 
   @Test
   public void testGetNumberOfFeatures() {
 
-    assertEquals(new Integer(2), this.features.getNumberOfFeatures());
+    String firstFeatureName = "Feature1";
+    String secondFeatureName = "Feature2";
+
+    Integer finalQuantity = 2;
+
+    Feature firstFeature = new FeatureImpl(firstFeatureName);
+    Feature secondFeature = new FeatureImpl(secondFeatureName);
+    Features features = new FeaturesImpl();
+
+    features.addFeature(firstFeature);
+    features.addFeature(secondFeature);
+
+    assertEquals(finalQuantity, features.getNumberOfFeatures());
   }
 }

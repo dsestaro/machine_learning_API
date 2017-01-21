@@ -14,7 +14,7 @@ public class FeaturesImpl implements Features {
 
   public FeaturesImpl addFeature(Feature feature) {
 
-    if(!this.features.contains(feature)) {
+    if(feature != null && !this.features.contains(feature)) {
 
       this.features.add(feature);
     }
@@ -30,10 +30,5 @@ public class FeaturesImpl implements Features {
   public Integer getNumberOfFeatures() {
 
     return this.features.size();
-  }
-
-  private FeatureImpl createNewFeature(String name) {
-
-    return new FeatureImpl(name);
   }
 }
