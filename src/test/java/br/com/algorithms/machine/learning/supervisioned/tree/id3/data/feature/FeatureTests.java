@@ -1,7 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureParameterException;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,16 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 public class FeatureTests {
-
-  private Feature feature;
-
-  @Before
-  public void instantiateFeature() {
-
-    this.feature = new FeatureImpl("Feature");
-    this.feature.addNewValue("Value1");
-    this.feature.addNewValue("Value2");
-  }
 
   @Test
   public void testFeatureInstantiation() {
