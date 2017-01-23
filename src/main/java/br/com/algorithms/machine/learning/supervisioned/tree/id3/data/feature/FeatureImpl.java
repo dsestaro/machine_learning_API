@@ -1,14 +1,12 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureInformationException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureParameterException;
 import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureImpl implements Feature {
-
-  private static final String INVALID_NAME = "The feature name cannot be null or empty";
 
   private String name;
   private List<String> values;
@@ -25,18 +23,13 @@ public class FeatureImpl implements Feature {
 
     if(StringUtils.isEmpty(name)) {
 
-      throw new InvalidFeatureInformationException(INVALID_NAME);
+      throw new InvalidFeatureParameterException();
     }
   }
 
   public String getName() {
 
     return name;
-  }
-
-  public List<String> getValues() {
-
-    return values;
   }
 
   public FeatureImpl addNewValue(String value) {
@@ -49,12 +42,18 @@ public class FeatureImpl implements Feature {
     return this;
   }
 
+  public List<String> getValues() {
+
+    return values;
+  }
+
   public Integer getNumberOfValues() {
 
     return this.values.size();
   }
 
   public boolean equals(Object obj) {
+
     if (obj == null) {
       return false;
     }
