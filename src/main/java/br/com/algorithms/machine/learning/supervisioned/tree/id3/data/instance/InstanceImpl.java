@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class InstanceImpl implements Instance {
 
-  private static final String INVALID_FEATURE_NAME = "The feature name cannot be null or empty.";
-  private static final String INVALID_FEATURE = "The same instance cannot have two different values for the same feature.";
+  public static final String INVALID_FEATURE_NAME = "The feature name cannot be null or empty.";
+  public static final String INVALID_FEATURE = "The same instance cannot have two different values for the same feature.";
 
   private String expectedOutput;
   private Map<String, String> features;
@@ -28,21 +28,21 @@ public class InstanceImpl implements Instance {
 
   public InstanceImpl setNewFeature(String featureName, String featureValue) {
 
-    validateFeature(featureName);
+    validateFeature(featureName, featureValue);
 
     this.features.put(featureName, featureValue);
 
     return this;
   }
 
-  private void validateFeature(String featureName) {
+  private void validateFeature(String featureName, String featureValue) {
 
     if(StringUtils.isEmpty(featureName)) {
 
       throw new InvalidInstanceInformationException(INVALID_FEATURE_NAME);
     }
 
-    if(this.features.containsKey(featureName)) {
+    if(this.features.containsKey(featureName) && !this.features.get(featureName).equals(featureValue)) {
 
       throw new InvalidInstanceInformationException(INVALID_FEATURE);
     }

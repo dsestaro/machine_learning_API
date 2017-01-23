@@ -1,60 +1,111 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidInstanceInformationException;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class InstanceTests {
-
-  private Instance instance;
-
-  @Before
-  public void instantiateInstance() {
-
-    this.instance = new InstanceImpl();
-
-    this.instance.setExpectedOutput("Output1");
-    this.instance.setNewFeature("FeatureName", "FeatureValue");
-  }
 
   @Test
   public void testFeatureInstantiation() {
 
-    new InstanceImpl();
+    Instance instance = new InstanceImpl();
+
+    assertNotNull(instance);
   }
 
   @Test
-  public void testDataInsertion() {
+  public void testSetGetOutput() {
 
-    this.instance.setExpectedOutput("Output");
-    this.instance.setNewFeature("NewFeature", "FeatureValue");
-  }
+    Instance instance = new InstanceImpl();
+    String expectedOutput = "Output";
 
-  @Test(expected = InvalidInstanceInformationException.class)
-  public void testDataInsertionOfNullFeatureName() {
+    instance.setExpectedOutput(expectedOutput);
 
-    this.instance.setNewFeature(null, "FeatureValue");
-  }
-
-  @Test(expected = InvalidInstanceInformationException.class)
-  public void testDataInsertionOfEmptyFeatureName() {
-
-    this.instance.setNewFeature("", "FeatureValue");
-  }
-
-  @Test(expected = InvalidInstanceInformationException.class)
-  public void testDataInsertionOfSameValueTwice() {
-
-    this.instance.setNewFeature("NewFeature", "FeatureValue");
-    this.instance.setNewFeature("NewFeature", "FeatureValue");
+    assertEquals(expectedOutput, instance.getExpectedOutput());
   }
 
   @Test
-  public void testDataRetrieve() {
+  public void testSetGetFeatureValue() {
 
-    assertEquals("Output1", this.instance.getExpectedOutput());
-    assertEquals("FeatureValue", this.instance.getFeatureValue("FeatureName"));
+    Instance instance = new InstanceImpl();
+    String featureName = "NewFeature";
+    String featureValue = "FeatureValue";
+
+    instance.setNewFeature(featureName, featureValue);
+
+    assertEquals(featureValue, instance.getFeatureValue(featureName));
+  }
+
+  @Test
+  public void testSetFeatureValue_NullFeatureName() {
+
+    Instance instance = new InstanceImpl();
+    String featureName = null;
+    String featureValue = "FeatureValue";
+
+    try {
+
+      instance.setNewFeature(featureName, featureValue);
+
+      fail("InvalidInstanceInformationException should be thrown.");
+    } catch (InvalidInstanceInformationException e) {
+
+      assertEquals(InstanceImpl.INVALID_FEATURE_NAME, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSetFeatureValue_EmptyFeatureName() {
+
+    Instance instance = new InstanceImpl();
+    String featureName = "";
+    String featureValue = "FeatureValue";
+
+    try {
+
+      instance.setNewFeature(featureName, featureValue);
+
+      fail("InvalidInstanceInformationException should be thrown.");
+    } catch (InvalidInstanceInformationException e) {
+
+      assertEquals(InstanceImpl.INVALID_FEATURE_NAME, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSetGetFeatureValue_InsertingSameValueTwiceWithSameFeature() {
+
+    Instance instance = new InstanceImpl();
+    String featureName = "NewFeature";
+    String featureValue = "FeatureValue";
+
+    instance.setNewFeature(featureName, featureValue);
+    instance.setNewFeature(featureName, featureValue);
+
+    assertEquals(featureValue, instance.getFeatureValue(featureName));
+  }
+
+  @Test
+  public void testSetGetFeatureValue_InsertingDifferentValuesWithSameFeature() {
+
+    Instance instance = new InstanceImpl();
+    String featureName = "NewFeature";
+    String featureFirstValue = "FeatureValue";
+    String featureSecondValue = "Invalid";
+
+    try {
+
+      instance.setNewFeature(featureName, featureFirstValue);
+      instance.setNewFeature(featureName, featureSecondValue);
+
+      fail("InvalidInstanceInformationException should be thrown.");
+    } catch (InvalidInstanceInformationException e) {
+
+      assertEquals(InstanceImpl.INVALID_FEATURE, e.getMessage());
+    }
   }
 }
