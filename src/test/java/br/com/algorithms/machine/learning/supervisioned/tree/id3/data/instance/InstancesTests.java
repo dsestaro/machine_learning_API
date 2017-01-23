@@ -1,57 +1,111 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
-import org.junit.Before;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.NonExistentInstanceException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class InstancesTests {
-
-  private Instances instances;
-
-  @Before
-  public void instantiateInstances() {
-
-    this.instances = new InstancesImpl();
-
-    this.instances.addNewInstance(new InstanceImpl());
-    this.instances.addNewInstance(new InstanceImpl());
-  }
 
   @Test
   public void testFeatureInstantiation() {
 
-    new InstancesImpl();
+    Instances instances = new InstancesImpl();
+
+    assertNotNull(instances);
+    assertNotNull(instances.getInstances());
   }
 
   @Test
-  public void testAddANewInstance() {
+  public void testSetGetInstance() {
 
+    Instances instances = new InstancesImpl();
     Instance instance = new InstanceImpl();
 
-    this.instances.addNewInstance(instance);
+    int initialQuantity = 0;
+    int expectedQuantity = 1;
+
+    assertEquals(initialQuantity, instances.getInstances().size());
+
+    instances.addNewInstance(instance);
+
+    assertEquals(expectedQuantity, instances.getInstances().size());
+  }
+
+  @Test
+  public void testSetGetInstance_NullObject() {
+
+    Instances instances = new InstancesImpl();
+    Instance instance = null;
+
+    int initialQuantity = 0;
+    int expectedQuantity = 0;
+
+    assertEquals(initialQuantity, instances.getInstances().size());
+
+    instances.addNewInstance(instance);
+
+    assertEquals(expectedQuantity, instances.getInstances().size());
   }
 
   @Test
   public void testGetNumberOfInstances() {
 
-    assertEquals(new Integer(2), this.instances.getNumberOfInstances());
+    Instances instances = new InstancesImpl();
+    Instance firstInstance = new InstanceImpl();
+    Instance secondInstance = new InstanceImpl();
+
+    Integer expectedQuantity = 2;
+
+    instances.addNewInstance(firstInstance);
+    instances.addNewInstance(secondInstance);
+
+    assertEquals(expectedQuantity, instances.getNumberOfInstances());
   }
 
   @Test
   public void testGetInstancesByIndex() {
 
-    Instance instance = new InstanceImpl();
-    instance.setExpectedOutput("Valid");
+    Instances instances = new InstancesImpl();
+    Instance firstInstance = new InstanceImpl();
+    Instance secondInstance = new InstanceImpl();
 
-    this.instances.addNewInstance(instance);
+    String output = "Valid";
+    int instanceIndex = 1;
 
-    assertEquals("Valid", this.instances.getInstanceByIndex(2).getExpectedOutput());
+    secondInstance.setExpectedOutput(output);
+
+    instances.addNewInstance(firstInstance);
+    instances.addNewInstance(secondInstance);
+
+    assertEquals(output, instances.getInstanceByIndex(instanceIndex).getExpectedOutput());
   }
 
   @Test
-  public void testGetInstances() {
+  public void testGetInstancesByIndex_InvalidIndex() {
 
-    assertEquals(2, this.instances.getInstances().size());
+    Instances instances = new InstancesImpl();
+    Instance firstInstance = new InstanceImpl();
+    Instance secondInstance = new InstanceImpl();
+
+    String output = "Valid";
+    int instanceIndex = 5;
+
+    secondInstance.setExpectedOutput(output);
+
+    instances.addNewInstance(firstInstance);
+    instances.addNewInstance(secondInstance);
+
+    try {
+
+      instances.getInstanceByIndex(instanceIndex).getExpectedOutput();
+
+      fail("NonExistentInstanceException should be thrown.");
+    } catch (NonExistentInstanceException e) {
+
+      assertEquals(NonExistentInstanceException.NON_EXISTENT_INSTANCE, e.getMessage());
+    }
   }
 }

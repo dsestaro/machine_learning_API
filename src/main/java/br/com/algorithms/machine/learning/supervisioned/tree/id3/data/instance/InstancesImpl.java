@@ -1,5 +1,7 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.NonExistentInstanceException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +16,27 @@ public class InstancesImpl implements Instances {
 
   public InstancesImpl addNewInstance(Instance instance) {
 
-    this.instances.add(instance);
+    if(instance != null) {
+
+      this.instances.add(instance);
+    }
 
     return this;
   }
 
   public Instance getInstanceByIndex(Integer index) {
 
-    return this.instances.get(index);
+    Instance instance = null;
+
+    try {
+
+      instance = this.instances.get(index);
+    } catch (IndexOutOfBoundsException e) {
+
+      throw new NonExistentInstanceException();
+    }
+
+    return instance;
   }
 
   public Integer getNumberOfInstances() {
