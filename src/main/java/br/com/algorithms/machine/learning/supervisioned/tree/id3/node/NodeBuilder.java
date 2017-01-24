@@ -6,9 +6,9 @@ import br.com.algorithms.machine.learning.utils.StringUtils;
 
 public class NodeBuilder {
 
-  private static final String INVALID_NODE_TYPE = "The node type cannot be null.";
-  private static final String INVALID_FEATURE_VALUE = "The feature value cannot be null when the node type is equals " + NodeType.FEATURE_NODE + ".";
-  private static final String INVALID_OUTPUT_VALUE = "The output value cannot be null when the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".";
+  public static final String INVALID_NODE_TYPE = "The node type cannot be null.";
+  public static final String INVALID_FEATURE_VALUE = "The feature value cannot be null when the node type is equals " + NodeType.FEATURE_NODE + ".";
+  public static final String INVALID_OUTPUT_VALUE = "The output value cannot be null when the node type is equals " + NodeType.OUTPUT_LEAF_NODE + ".";
 
   private NodeImpl node;
 

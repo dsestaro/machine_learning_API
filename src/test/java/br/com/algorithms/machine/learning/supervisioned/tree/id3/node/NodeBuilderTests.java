@@ -1,65 +1,122 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidNodeInformationException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class NodeBuilderTests {
 
   @Test
-  public void testCreationOfAValidOutputLeafNodeObject() {
+  public void testNodeInstantiation_OutputLeafNodeObject() {
+
+    String expectedOutput = "Yes";
+    NodeType expectedNodeType = NodeType.OUTPUT_LEAF_NODE;
 
     NodeBuilder nodeBuilder = new NodeBuilder();
 
-    nodeBuilder.setNodeType(NodeType.OUTPUT_LEAF_NODE);
-    nodeBuilder.setOutput("Yes");
+    nodeBuilder.setNodeType(expectedNodeType);
+    nodeBuilder.setOutput(expectedOutput);
 
     Node node = nodeBuilder.buildNode();
 
-    assertEquals(NodeType.OUTPUT_LEAF_NODE, node.getNodeType());
-    assertEquals("Yes", node.getOutput());
+    assertEquals(expectedNodeType, node.getNodeType());
+    assertEquals(expectedOutput, node.getOutput());
   }
 
   @Test
-  public void testCreationOfAValidFeatureNodeObject() {
+  public void testNodeInstantiation_FeatureNodeObject() {
+
+    String featureName = "Outlook";
+    NodeType expectedNodeType = NodeType.FEATURE_NODE;
+
+    Feature feature = new FeatureImpl(featureName);
 
     NodeBuilder nodeBuilder = new NodeBuilder();
 
-    nodeBuilder.setNodeType(NodeType.FEATURE_NODE);
-    nodeBuilder.setNodeFeature(new FeatureImpl("Outlook"));
+    nodeBuilder.setNodeType(expectedNodeType);
+    nodeBuilder.setNodeFeature(feature);
 
     Node node = nodeBuilder.buildNode();
 
-    assertEquals(NodeType.FEATURE_NODE, node.getNodeType());
+    assertEquals(expectedNodeType, node.getNodeType());
   }
 
-  @Test(expected = InvalidNodeInformationException.class)
-  public void testCreationOfANodeObjectWithMissingNodeTypeValue() {
+  @Test
+  public void testNodeInstantiation_MissingNodeTypeValue() {
 
     NodeBuilder nodeBuilder = new NodeBuilder();
 
-    Node node = nodeBuilder.buildNode();
+    try {
+
+      Node node = nodeBuilder.buildNode();
+
+      fail("InvalidNodeInformationException should be thrown.");
+    } catch (InvalidNodeInformationException e) {
+
+      assertEquals(NodeBuilder.INVALID_NODE_TYPE, e.getMessage());
+    }
   }
 
-  @Test(expected = InvalidNodeInformationException.class)
-  public void testCreationOfALeafNodeObjectWithMissingOutputValue() {
+  @Test
+  public void testNodeInstantiation_MissingOutputValue() {
 
     NodeBuilder nodeBuilder = new NodeBuilder();
+    NodeType nodeType = NodeType.OUTPUT_LEAF_NODE;
 
-    nodeBuilder.setNodeType(NodeType.OUTPUT_LEAF_NODE);
+    nodeBuilder.setNodeType(nodeType);
 
-    Node node = nodeBuilder.buildNode();
+    try {
+
+      Node node = nodeBuilder.buildNode();
+
+      fail("InvalidNodeInformationException should be thrown.");
+    } catch (InvalidNodeInformationException e) {
+
+      assertEquals(NodeBuilder.INVALID_OUTPUT_VALUE, e.getMessage());
+    }
   }
 
-  @Test(expected = InvalidNodeInformationException.class)
-  public void testCreationOfAFeatureNodeObjectWithMissingOutputValue() {
+  @Test
+  public void testNodeInstantiation_EmptyOutputValue() {
 
     NodeBuilder nodeBuilder = new NodeBuilder();
+    NodeType nodeType = NodeType.OUTPUT_LEAF_NODE;
+    String output = "";
 
-    nodeBuilder.setNodeType(NodeType.FEATURE_NODE);
+    nodeBuilder.setNodeType(nodeType);
+    nodeBuilder.setOutput(output);
 
-    Node node = nodeBuilder.buildNode();
+    try {
+
+      Node node = nodeBuilder.buildNode();
+
+      fail("InvalidNodeInformationException should be thrown.");
+    } catch (InvalidNodeInformationException e) {
+
+      assertEquals(NodeBuilder.INVALID_OUTPUT_VALUE, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testNodeInstantiation_MissingFeatureValue() {
+
+    NodeBuilder nodeBuilder = new NodeBuilder();
+    NodeType nodeType = NodeType.FEATURE_NODE;
+
+    nodeBuilder.setNodeType(nodeType);
+
+    try {
+
+      Node node = nodeBuilder.buildNode();
+
+      fail("InvalidNodeInformationException should be thrown.");
+    } catch (InvalidNodeInformationException e) {
+
+      assertEquals(NodeBuilder.INVALID_FEATURE_VALUE, e.getMessage());
+    }
   }
 }
