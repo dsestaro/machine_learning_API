@@ -1,7 +1,7 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidNodeInformationException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeInformationException;
 import br.com.algorithms.machine.learning.utils.StringUtils;
 
 public class NodeBuilder {

@@ -1,6 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidInstanceInformationException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.InvalidInstanceInformationException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,4 +1,4 @@
-package br.com.algorithms.machine.learning.supervisioned.tree.id3.exception;
+package br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance;
 
 public class InvalidInstanceInformationException extends RuntimeException {
 

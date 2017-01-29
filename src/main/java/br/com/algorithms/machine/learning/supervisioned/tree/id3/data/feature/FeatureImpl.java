@@ -1,6 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.InvalidFeatureParameterException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidFeatureParameterException;
 import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.ArrayList;

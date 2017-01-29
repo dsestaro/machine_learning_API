@@ -7,8 +7,8 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.EmptyFeaturesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.EmptyInstancesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;

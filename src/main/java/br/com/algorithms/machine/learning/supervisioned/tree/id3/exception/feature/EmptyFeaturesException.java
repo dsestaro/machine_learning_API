@@ -1,4 +1,4 @@
-package br.com.algorithms.machine.learning.supervisioned.tree.id3.exception;
+package br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature;
 
 public class EmptyFeaturesException extends Exception {
 

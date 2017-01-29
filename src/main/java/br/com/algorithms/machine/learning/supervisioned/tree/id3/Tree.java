@@ -2,8 +2,8 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyFeaturesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.EmptyInstancesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.EmptyFeaturesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.EmptyInstancesException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 

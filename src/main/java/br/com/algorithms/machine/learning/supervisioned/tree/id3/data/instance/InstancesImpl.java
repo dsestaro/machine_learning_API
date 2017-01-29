@@ -1,6 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.NonExistentInstanceException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.NonExistentInstanceException;
 
 import java.util.ArrayList;
 import java.util.List;
