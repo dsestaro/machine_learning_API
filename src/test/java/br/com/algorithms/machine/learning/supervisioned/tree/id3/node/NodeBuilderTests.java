@@ -3,6 +3,7 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeInformationException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -68,27 +69,6 @@ public class NodeBuilderTests {
     NodeType nodeType = NodeType.OUTPUT_LEAF_NODE;
 
     nodeBuilder.setNodeType(nodeType);
-
-    try {
-
-      Node node = nodeBuilder.buildNode();
-
-      fail("InvalidNodeInformationException should be thrown.");
-    } catch (InvalidNodeInformationException e) {
-
-      assertEquals(NodeBuilder.INVALID_OUTPUT_VALUE, e.getMessage());
-    }
-  }
-
-  @Test
-  public void testNodeInstantiation_EmptyOutputValue() {
-
-    NodeBuilder nodeBuilder = new NodeBuilder();
-    NodeType nodeType = NodeType.OUTPUT_LEAF_NODE;
-    String output = "";
-
-    nodeBuilder.setNodeType(nodeType);
-    nodeBuilder.setOutput(output);
 
     try {
 

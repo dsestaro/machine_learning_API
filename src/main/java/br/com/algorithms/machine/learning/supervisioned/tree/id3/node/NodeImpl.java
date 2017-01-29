@@ -1,11 +1,16 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
+import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class NodeImpl implements Node {
+
+  public final static String INVALID_NODE_TYPE = "Node type cannot be null.";
+  public final static String INVALID_OUTPUT = "Output cannot be empty or null.";
 
   private NodeType nodeType;
   private String output;
@@ -19,9 +24,19 @@ public class NodeImpl implements Node {
 
   public Node setNodeType(NodeType nodeType) {
 
+    validateNodeType(nodeType);
+
     this.nodeType = nodeType;
 
     return this;
+  }
+
+  private void validateNodeType(NodeType nodeType) {
+
+    if (nodeType == null) {
+
+      throw new InvalidNodeParameterException(INVALID_NODE_TYPE);
+    }
   }
 
   public NodeType getNodeType() {
@@ -31,9 +46,19 @@ public class NodeImpl implements Node {
 
   public Node setOutput(String output) {
 
+    validateOutput(output);
+
     this.output = output;
 
     return this;
+  }
+
+  private void validateOutput(String output) {
+
+    if(StringUtils.isEmpty(output)) {
+
+      throw new InvalidNodeParameterException(INVALID_OUTPUT);
+    }
   }
 
   public String getOutput() {

@@ -2,83 +2,131 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class NodeTests {
 
-  private NodeImpl node;
+  @Test
+  public void testNodeInstantiation() {
 
-  @Before
-  public void instantiateNode() {
+    Node node = new NodeImpl();
 
-    this.node = new NodeImpl();
+    assertNotNull(node);
+  }
 
-    this.node.setNodeType(NodeType.FEATURE_NODE);
-    this.node.setOutput("Teste");
+  @Test
+  public void testSetGetNodeType() {
 
-    Feature feature = new FeatureImpl("Outlook");
-
-    this.node.setFeature(feature);
+    NodeType nodeType = NodeType.FEATURE_NODE;
 
     NodeImpl node = new NodeImpl();
-    node.setOutput("Outlook");
 
-    this.node.setNewChildNode("Weak", node);
+    node.setNodeType(nodeType);
+
+    assertEquals(nodeType, node.getNodeType());
   }
 
   @Test
-  public void testSetNodeType() {
+  public void testSetNodeType_NullNodeTye() {
 
-    this.node.setNodeType(NodeType.FEATURE_NODE);
-  }
-
-  @Test
-  public void testGetNodeType() {
-
-    assertEquals(NodeType.FEATURE_NODE, this.node.getNodeType());
-  }
-
-  @Test
-  public void testSetOutput() {
-
-    this.node.setOutput("Teste");
-  }
-
-  @Test
-  public void testGetOutput() {
-
-    assertEquals("Teste", this.node.getOutput());
-  }
-
-  @Test
-  public void testSetFeature() {
-
-    Feature feature = new FeatureImpl("Outlook");
-
-    this.node.setFeature(feature);
-  }
-
-  @Test
-  public void testGetFeature() {
-
-    assertEquals("Outlook", this.node.getFeature().getName());
-  }
-
-  @Test
-  public void testSetNewChildNode() {
+    NodeType nodeType = null;
 
     NodeImpl node = new NodeImpl();
-    node.setOutput("Outlook");
 
-    this.node.setNewChildNode("Weak", node);
+    try {
+
+      node.setNodeType(nodeType);
+
+      fail("InvalidNodeParameterException should be thrown.");
+    } catch (InvalidNodeParameterException e) {
+
+      assertEquals(NodeImpl.INVALID_NODE_TYPE, e.getMessage());
+    }
+
+    assertEquals(nodeType, node.getNodeType());
   }
 
   @Test
-  public void testGetChildNode() {
+  public void testSetGetOutput() {
 
-    assertEquals("Outlook", this.node.getChildNode("Weak").getOutput());
+    String output = "Teste";
+
+    NodeImpl node = new NodeImpl();
+
+    node.setOutput(output);
+
+    assertEquals(output, node.getOutput());
+  }
+
+  @Test
+  public void testSetGetOutput_NullOutput() {
+
+    String output = null;
+
+    NodeImpl node = new NodeImpl();
+
+    try {
+
+      node.setOutput(output);
+
+      fail("InvalidNodeParameterException should be thrown.");
+    } catch (InvalidNodeParameterException e) {
+
+      assertEquals(NodeImpl.INVALID_OUTPUT, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSetGetOutput_EmptyOutput() {
+
+    String output = "";
+
+    NodeImpl node = new NodeImpl();
+
+    try {
+
+      node.setOutput(output);
+
+      fail("InvalidNodeParameterException should be thrown.");
+    } catch (InvalidNodeParameterException e) {
+
+      assertEquals(NodeImpl.INVALID_OUTPUT, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testSetGetFeature() {
+
+    String featureName = "Outlook";
+
+    NodeImpl node = new NodeImpl();
+
+    Feature feature = new FeatureImpl(featureName);
+
+    node.setFeature(feature);
+
+    assertEquals(featureName, node.getFeature().getName());
+  }
+
+  @Test
+  public void testSetGetNewChildNode() {
+
+    String featureValue = "Weak";
+    String output = "Yes";
+
+    NodeImpl childNode = new NodeImpl();
+    NodeImpl parentNode = new NodeImpl();
+
+    childNode.setOutput(output);
+
+    parentNode.setNewChildNode(featureValue, childNode);
+
+    assertEquals(output, parentNode.getChildNode(featureValue).getOutput());
   }
 }
