@@ -34,7 +34,7 @@ public class FeatureTests {
       fail("InvalidFeatureParameterException should be thrown.");
     } catch(InvalidFeatureParameterException e) {
 
-      assertEquals(InvalidFeatureParameterException.INVALID_NAME, e.getMessage());
+      assertEquals(FeatureImpl.INVALID_NAME, e.getMessage());
     }
   }
 
@@ -50,7 +50,7 @@ public class FeatureTests {
       fail("InvalidFeatureParameterException should be thrown.");
     } catch(InvalidFeatureParameterException e) {
 
-      assertEquals(InvalidFeatureParameterException.INVALID_NAME, e.getMessage());
+      assertEquals(FeatureImpl.INVALID_NAME, e.getMessage());
     }
   }
 
