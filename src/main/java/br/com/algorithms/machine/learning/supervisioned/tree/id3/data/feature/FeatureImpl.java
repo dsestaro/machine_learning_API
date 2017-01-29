@@ -8,6 +8,8 @@ import java.util.List;
 
 public class FeatureImpl implements Feature {
 
+  public static final String INVALID_NAME = "The feature name cannot be null or empty";
+
   private String name;
   private List<String> values;
 
@@ -23,7 +25,7 @@ public class FeatureImpl implements Feature {
 
     if(StringUtils.isEmpty(name)) {
 
-      throw new InvalidFeatureParameterException();
+      throw new InvalidFeatureParameterException(INVALID_NAME);
     }
   }
 
