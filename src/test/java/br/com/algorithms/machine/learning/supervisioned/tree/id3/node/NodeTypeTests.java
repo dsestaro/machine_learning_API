@@ -8,17 +8,18 @@ import static org.junit.Assert.assertNull;
 public class NodeTypeTests {
 
   @Test
-  public void testIfNodeTypeFeatureNodeExists() {
-    assertNotNull(NodeType.valueOf("FEATURE_NODE"));
+  public void testIfNodeTypeInstantiatin_FeatureNode() {
+
+    String nodeType = "FEATURE_NODE";
+
+    assertNotNull(NodeType.valueOf(nodeType));
   }
 
   @Test
-  public void testIfNodeTypeOutputNodeExists() {
-    assertNotNull(NodeType.valueOf("OUTPUT_LEAF_NODE"));
-  }
+  public void testIfNodeTypeInstantiatin_OutputLeadNode() {
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testIfAnInvalidNodeExists() {
-    assertNull(NodeType.valueOf("INVALID_NODE"));
+    String nodeType = "OUTPUT_LEAF_NODE";
+
+    assertNotNull(NodeType.valueOf(nodeType));
   }
 }
