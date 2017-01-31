@@ -105,7 +105,7 @@ public class InstancesTests {
       fail("NonExistentInstanceException should be thrown.");
     } catch (NonExistentInstanceException e) {
 
-      assertEquals(NonExistentInstanceException.NON_EXISTENT_INSTANCE, e.getMessage());
+      assertEquals(InstancesImpl.NON_EXISTENT_INSTANCE, e.getMessage());
     }
   }
 }

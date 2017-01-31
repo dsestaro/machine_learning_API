@@ -7,6 +7,8 @@ import java.util.List;
 
 public class InstancesImpl implements Instances {
 
+  public static final String NON_EXISTENT_INSTANCE = "The searched instance does not exist.";
+
   private List<Instance> instances;
 
   public InstancesImpl() {
@@ -33,7 +35,7 @@ public class InstancesImpl implements Instances {
       instance = this.instances.get(index);
     } catch (IndexOutOfBoundsException e) {
 
-      throw new NonExistentInstanceException();
+      throw new NonExistentInstanceException(NON_EXISTENT_INSTANCE);
     }
 
     return instance;

@@ -6,8 +6,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Fe
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.EmptyFeaturesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.EmptyInstancesException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.tree.InvalidTreeParametersException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeBuilder;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
@@ -18,13 +17,17 @@ import java.util.Map;
 
 public class TreeImpl implements Tree {
 
-  public Node buildDecisionTree(Features features, Instances instances) throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
+  public static final String INVALID_FEATURES = "Features cannot be null or empty.";
+  public static final String INVALID_INSTANCES = "Instances cannot be null or empty.";
+
+  public Node buildDecisionTree(Features features, Instances instances) throws InvalidFeatureValueException {
 
     validateParameters(features, instances);
 
     Map<String, Integer> outputQuant = TreeUtils.calculateQuantityOutput(instances);
 
     if(isOnlyOnePossibleOutput(outputQuant)) {
+
       return buildLeaf(outputQuant);
     }
 
@@ -41,16 +44,16 @@ public class TreeImpl implements Tree {
     return root;
   }
 
-  private void validateParameters(Features features, Instances instances) throws EmptyFeaturesException, EmptyInstancesException {
+  private void validateParameters(Features features, Instances instances) {
 
     if(features == null || features.getNumberOfFeatures() == 0) {
 
-      throw new EmptyFeaturesException();
+      throw new InvalidTreeParametersException(INVALID_FEATURES);
     }
 
     if(instances == null || instances.getNumberOfInstances() == 0) {
 
-      throw new EmptyInstancesException();
+      throw new InvalidTreeParametersException(INVALID_INSTANCES);
     }
   }
 
@@ -127,7 +130,7 @@ public class TreeImpl implements Tree {
     return  instancesByFeatureValue;
   }
 
-  private void buildRemainTreeNodes(Feature bestFeature, Features filteredFeatures, Node root, Map<String, Instances> instancesByFeatureValue) throws EmptyFeaturesException, EmptyInstancesException, InvalidFeatureValueException {
+  private void buildRemainTreeNodes(Feature bestFeature, Features filteredFeatures, Node root, Map<String, Instances> instancesByFeatureValue) throws InvalidFeatureValueException {
     for(String featureValue : bestFeature.getValues()) {
 
       Node childNode = buildDecisionTree(filteredFeatures, instancesByFeatureValue.get(featureValue));
