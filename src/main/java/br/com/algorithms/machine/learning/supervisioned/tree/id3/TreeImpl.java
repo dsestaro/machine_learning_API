@@ -59,7 +59,17 @@ public class TreeImpl implements Tree {
 
   protected boolean isOnlyOnePossibleOutput(Map<String, Integer> outputQuant) {
 
-    return outputQuant.size() <= 1;
+    int numberOfQuantitiesBiggerThanZero = 0;
+
+    for(String outputName : outputQuant.keySet()) {
+
+      if(outputQuant.get(outputName) != null && outputQuant.get(outputName) > 0) {
+
+        numberOfQuantitiesBiggerThanZero++;
+      }
+    }
+
+    return numberOfQuantitiesBiggerThanZero == 1;
   }
 
   private Node buildLeaf(Map<String, Integer> outputQuant) {

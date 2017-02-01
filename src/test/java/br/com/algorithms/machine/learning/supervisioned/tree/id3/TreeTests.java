@@ -21,8 +21,10 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 public class TreeTests {
 
@@ -31,7 +33,7 @@ public class TreeTests {
   private Features features;
 
   @Before
-  public void instantiateTree() {
+  public void instanatiateTree() {
 
     this.tree = new TreeImpl();
 
@@ -173,59 +175,199 @@ public class TreeTests {
     this.instances.addNewInstance(instance14);
   }
 
-  @Test(expected = InvalidTreeParametersException.class)
-  public void testNullFeatures() throws InvalidFeatureValueException {
+  @Test
+  public void testTreeInstantiatoin() {
 
-    this.tree.buildDecisionTree(null, null);
-  }
+    Tree tree = new TreeImpl();
 
-  @Test(expected = InvalidTreeParametersException.class)
-  public void testEmptyFeatures() throws InvalidFeatureValueException {
-
-    this.tree.buildDecisionTree(new FeaturesImpl(), null);
-  }
-
-  @Test(expected = InvalidTreeParametersException.class)
-  public void testNullInstances() throws InvalidFeatureValueException {
-
-    this.tree.buildDecisionTree(this.features, null);
-  }
-
-  @Test(expected = InvalidTreeParametersException.class)
-  public void testEmptyInstances() throws InvalidFeatureValueException {
-
-    this.tree.buildDecisionTree(this.features, new InstancesImpl());
+    assertNotNull(tree);
   }
 
   @Test
-  public void testIsOnlyOnePossibleOutputWithMoreThanOne() {
+  public void testBuildTree_NullFeatures() throws InvalidFeatureValueException {
 
-    Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
+    Features features = null;
+    Instances instances = null;
 
-    assertFalse(this.tree.isOnlyOnePossibleOutput(quantity));
+    Tree tree = new TreeImpl();
+
+    try {
+
+      tree.buildDecisionTree(features, instances);
+
+      fail("InvalidTreeParametersException should be thrown.");
+    } catch (InvalidTreeParametersException e) {
+
+      assertEquals(TreeImpl.INVALID_FEATURES, e.getMessage());
+    }
   }
 
   @Test
-  public void testIsOnlyOnePossibleOutputWithOnlyOne() {
+  public void testBuildTree_EmptyFeatures() throws InvalidFeatureValueException {
+
+
+    Features features = new FeaturesImpl();
+    Instances instances = null;
+
+    Tree tree = new TreeImpl();
+
+    try {
+
+      tree.buildDecisionTree(features, instances);
+
+      fail("InvalidTreeParametersException should be thrown.");
+    } catch (InvalidTreeParametersException e) {
+
+      assertEquals(TreeImpl.INVALID_FEATURES, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBuildTree_NullInstances() throws InvalidFeatureValueException {
+
+    Features features = new FeaturesImpl();
+    Feature feature = new FeatureImpl("Outlook");
+    Instances instances = null;
+
+    features.addFeature(feature);
+
+    Tree tree = new TreeImpl();
+
+    try {
+
+      tree.buildDecisionTree(features, instances);
+
+      fail("InvalidTreeParametersException should be thrown.");
+    } catch (InvalidTreeParametersException e) {
+
+      assertEquals(TreeImpl.INVALID_INSTANCES, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBuildTree_EmptyInstances() throws InvalidFeatureValueException {
+
+    Features features = new FeaturesImpl();
+    Feature feature = new FeatureImpl("Outlook");
+    Instances instances = new InstancesImpl();
+
+    features.addFeature(feature);
+
+    Tree tree = new TreeImpl();
+
+    try {
+
+      tree.buildDecisionTree(features, instances);
+
+      fail("InvalidTreeParametersException should be thrown.");
+    } catch (InvalidTreeParametersException e) {
+
+      assertEquals(TreeImpl.INVALID_INSTANCES, e.getMessage());
+    }
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMap() {
+
+    String outputTrue = "Yes";
+    int outputTrueQuantity = 1;
+    String outputFalse = "No";
+    int outputFalseQuantity = 1;
+
+    TreeImpl tree = new TreeImpl();
 
     Map<String, Integer> quantity = new HashMap<String, Integer>();
 
-    quantity.put("Yes", 1);
+    quantity.put(outputTrue, outputTrueQuantity);
+    quantity.put(outputFalse, outputFalseQuantity);
 
-    assertTrue(this.tree.isOnlyOnePossibleOutput(quantity));
+    assertFalse(tree.isOnlyOnePossibleOutput(quantity));
   }
 
   @Test
-  public void testIfLeafIsBeingReturnedWhenOnlyOneOutputIsSent() throws InvalidFeatureValueException {
+  public void testIsOnlyOnePossibleOutput_WithOneValueInTheMap() {
+
+    String outputTrue = "Yes";
+    int outputTrueQuantity = 1;
+
+    TreeImpl tree = new TreeImpl();
+
+    Map<String, Integer> quantity = new HashMap<String, Integer>();
+
+    quantity.put(outputTrue, outputTrueQuantity);
+
+    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMapButOnlyOneBiggerThanZero() {
+
+    String outputTrue = "Yes";
+    int outputTrueQuantity = 1;
+    String outputFalse = "No";
+    int outputFalseQuantity = 0;
+
+    TreeImpl tree = new TreeImpl();
+
+    Map<String, Integer> quantity = new HashMap<String, Integer>();
+
+    quantity.put(outputTrue, outputTrueQuantity);
+    quantity.put(outputFalse, outputFalseQuantity);
+
+    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMapButWithOneValueNull() {
+
+    String outputTrue = "Yes";
+    int outputTrueQuantity = 1;
+    String outputFalse = "No";
+    Integer outputFalseQuantity = null;
+
+    TreeImpl tree = new TreeImpl();
+
+    Map<String, Integer> quantity = new HashMap<String, Integer>();
+
+    quantity.put(outputTrue, outputTrueQuantity);
+    quantity.put(outputFalse, outputFalseQuantity);
+
+    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithNoValuesInTheMap() {
+
+    TreeImpl tree = new TreeImpl();
+
+    Map<String, Integer> quantity = new HashMap<String, Integer>();
+
+    assertFalse(tree.isOnlyOnePossibleOutput(quantity));
+  }
+
+  @Test
+  public void testBuildDecisionTree_OnlyOneOutputSent() throws InvalidFeatureValueException {
+
+    String output = "Yes";
+    String featureName = "Outlook";
+
+    NodeType expectedNodeType = NodeType.OUTPUT_LEAF_NODE;
+
+    Tree tree = new TreeImpl();
 
     Instances instances = new InstancesImpl();
+
+    Feature feature = new FeatureImpl(featureName);
+    Features features = new FeaturesImpl();
+
     Instance instance = new InstanceImpl();
 
-    instance.setExpectedOutput("Yes");
-
+    instance.setExpectedOutput(output);
     instances.addNewInstance(instance);
 
-    assertEquals(NodeType.OUTPUT_LEAF_NODE, this.tree.buildDecisionTree(this.features, instances).getNodeType());
+    features.addFeature(feature);
+
+    assertEquals(expectedNodeType, tree.buildDecisionTree(features, instances).getNodeType());
   }
 
   @Test
