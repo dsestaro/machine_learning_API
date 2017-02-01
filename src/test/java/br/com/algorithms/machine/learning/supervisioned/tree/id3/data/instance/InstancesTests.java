@@ -4,6 +4,8 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.insta
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -107,5 +109,47 @@ public class InstancesTests {
 
       assertEquals(InstancesImpl.NON_EXISTENT_INSTANCE, e.getMessage());
     }
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithTwoPossibleOutputsInTheInstances() {
+
+    Instances instances = new InstancesImpl();
+    Instance firstInstance = new InstanceImpl();
+    Instance secondInstance = new InstanceImpl();
+
+    String outputPositve = "Yes";
+    String outputNegative = "No";
+
+    firstInstance.setExpectedOutput(outputPositve);
+    firstInstance.setExpectedOutput(outputNegative);
+
+    instances.addNewInstance(firstInstance);
+    instances.addNewInstance(secondInstance);
+
+    assertFalse(instances.hasOnlyOneOutput());
+  }
+
+  @Test
+  public void testIsOnlyOnePossibleOutput_WithOnePossibleOutputInTheInstances() {
+
+    Instances instances = new InstancesImpl();
+    Instance firstInstance = new InstanceImpl();
+
+    String outputPositve = "Yes";
+
+    firstInstance.setExpectedOutput(outputPositve);
+
+    instances.addNewInstance(firstInstance);
+
+    assertTrue(instances.hasOnlyOneOutput());
+  }
+
+  @Test
+  public void testHasOnlyOneOutput_WithNoInstances() {
+
+    Instances instances = new InstancesImpl();
+
+    assertFalse(instances.hasOnlyOneOutput());
   }
 }

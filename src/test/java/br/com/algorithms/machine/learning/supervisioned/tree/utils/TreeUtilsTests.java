@@ -161,6 +161,15 @@ public class TreeUtilsTests {
   }
 
   @Test
+  public void testCalculateOutputMapUsingInstanceList() {
+
+    Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances.getInstances());
+
+    assertEquals(new Integer(5), quantity.get("No"));
+    assertEquals(new Integer(9), quantity.get("Yes"));
+  }
+
+  @Test
   public void testCalculateQuantityByFeatureValue() throws InvalidFeatureValueException {
 
     Map<String, Instances> quantity = TreeUtils.generateMapOfInstancesByFeatureValue(this.instances, this.feature);

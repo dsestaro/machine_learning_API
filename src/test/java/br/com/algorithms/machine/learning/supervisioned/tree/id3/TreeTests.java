@@ -267,85 +267,6 @@ public class TreeTests {
   }
 
   @Test
-  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMap() {
-
-    String outputTrue = "Yes";
-    int outputTrueQuantity = 1;
-    String outputFalse = "No";
-    int outputFalseQuantity = 1;
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    quantity.put(outputTrue, outputTrueQuantity);
-    quantity.put(outputFalse, outputFalseQuantity);
-
-    assertFalse(tree.isOnlyOnePossibleOutput(quantity));
-  }
-
-  @Test
-  public void testIsOnlyOnePossibleOutput_WithOneValueInTheMap() {
-
-    String outputTrue = "Yes";
-    int outputTrueQuantity = 1;
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    quantity.put(outputTrue, outputTrueQuantity);
-
-    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
-  }
-
-  @Test
-  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMapButOnlyOneBiggerThanZero() {
-
-    String outputTrue = "Yes";
-    int outputTrueQuantity = 1;
-    String outputFalse = "No";
-    int outputFalseQuantity = 0;
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    quantity.put(outputTrue, outputTrueQuantity);
-    quantity.put(outputFalse, outputFalseQuantity);
-
-    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
-  }
-
-  @Test
-  public void testIsOnlyOnePossibleOutput_WithTwoValuesInTheMapButWithOneValueNull() {
-
-    String outputTrue = "Yes";
-    int outputTrueQuantity = 1;
-    String outputFalse = "No";
-    Integer outputFalseQuantity = null;
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    quantity.put(outputTrue, outputTrueQuantity);
-    quantity.put(outputFalse, outputFalseQuantity);
-
-    assertTrue(tree.isOnlyOnePossibleOutput(quantity));
-  }
-
-  @Test
-  public void testIsOnlyOnePossibleOutput_WithNoValuesInTheMap() {
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    assertFalse(tree.isOnlyOnePossibleOutput(quantity));
-  }
-
-  @Test
   public void testBuildDecisionTree_OnlyOneOutputSent() throws InvalidFeatureValueException {
 
     String output = "Yes";
@@ -373,11 +294,23 @@ public class TreeTests {
   @Test
   public void testGetBestFeature() throws InvalidFeatureValueException {
 
-    Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
+    int outputTrueQuantity = 9;
+    int outputFalseQuantity = 5;
+    String outputFalse = "No";
+    String outputTrue = "Yes";
+    String expectedFeature = "Outlook";
 
-    Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
 
-    assertEquals("Outlook", feature.getName());
+    TreeImpl tree = new TreeImpl();
+
+    Map<String, Integer> quantity = new HashMap<String, Integer>();
+
+    quantity.put(outputTrue, outputTrueQuantity);
+    quantity.put(outputFalse, outputFalseQuantity);
+
+    Feature feature = tree.getBestFeature(this.features, this.instances, quantity);
+
+    assertEquals(expectedFeature, feature.getName());
   }
 
   @Test(expected = InvalidFeatureValueException.class)

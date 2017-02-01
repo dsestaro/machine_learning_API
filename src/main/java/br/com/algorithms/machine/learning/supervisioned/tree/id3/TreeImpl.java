@@ -26,7 +26,7 @@ public class TreeImpl implements Tree {
 
     Map<String, Integer> outputQuant = TreeUtils.calculateQuantityOutput(instances);
 
-    if(isOnlyOnePossibleOutput(outputQuant)) {
+    if(instances.hasOnlyOneOutput()) {
 
       return buildLeaf(outputQuant);
     }
@@ -55,21 +55,6 @@ public class TreeImpl implements Tree {
 
       throw new InvalidTreeParametersException(INVALID_INSTANCES);
     }
-  }
-
-  protected boolean isOnlyOnePossibleOutput(Map<String, Integer> outputQuant) {
-
-    int numberOfQuantitiesBiggerThanZero = 0;
-
-    for(String outputName : outputQuant.keySet()) {
-
-      if(outputQuant.get(outputName) != null && outputQuant.get(outputName) > 0) {
-
-        numberOfQuantitiesBiggerThanZero++;
-      }
-    }
-
-    return numberOfQuantitiesBiggerThanZero == 1;
   }
 
   private Node buildLeaf(Map<String, Integer> outputQuant) {

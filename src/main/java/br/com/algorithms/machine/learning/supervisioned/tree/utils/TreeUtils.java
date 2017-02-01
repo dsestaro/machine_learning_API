@@ -7,6 +7,7 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TreeUtils {
@@ -17,9 +18,14 @@ public class TreeUtils {
 
   public static Map<String, Integer> calculateQuantityOutput(Instances instances) {
 
+    return calculateQuantityOutput(instances.getInstances());
+  }
+
+  public static Map<String, Integer> calculateQuantityOutput(List<Instance> instances) {
+
     Map<String, Integer> outputQuant = new HashMap<String, Integer>();
 
-    for(Instance instance : instances.getInstances()) {
+    for(Instance instance : instances) {
 
       populateOutputMap(outputQuant, instance.getExpectedOutput());
     }
