@@ -5,12 +5,15 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
+import com.sun.javafx.binding.StringFormatter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TreeUtils {
+
+  public static final String INVALID_FEATURE = "The value \"%1$s\" does not exist in the features map.";
 
   protected TreeUtils() {
 
@@ -64,7 +67,7 @@ public class TreeUtils {
         quantityByFeatureValue.get(instance.getFeatureValue(feature.getName())).addNewInstance(instance);
       } catch (NullPointerException e) {
 
-        throw new InvalidFeatureValueException(instance.getFeatureValue(feature.getName()));
+        throw new InvalidFeatureValueException(String.format(INVALID_FEATURE, instance.getFeatureValue(feature.getName())));
       }
     }
   }

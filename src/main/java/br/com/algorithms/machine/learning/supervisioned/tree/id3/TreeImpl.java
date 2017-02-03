@@ -31,7 +31,7 @@ public class TreeImpl implements Tree {
       return buildLeaf(outputQuant);
     }
 
-    Feature bestFeature = getBestFeature(features, instances, outputQuant);
+    Feature bestFeature = features.getBestFeature(instances, outputQuant);
 
     Features filteredFeatures = getRemaingFeatures(features, bestFeature);
 
@@ -70,27 +70,6 @@ public class TreeImpl implements Tree {
   private String getLeafOutput(Map<String, Integer> outputQuant) {
 
     return outputQuant.keySet().iterator().next();
-  }
-
-  protected Feature getBestFeature(Features features, Instances instances, Map<String, Integer> outputQuant) throws InvalidFeatureValueException {
-
-    Double entropy = Entropy.calculateEntropy(outputQuant, instances.getNumberOfInstances());
-    Double bestInformationGain = 0.0;
-    Feature bestFeature = null;
-
-    for(Feature feature : features.getFeatures()) {
-
-      Map<String, Instances> quantityByFeatureValue = TreeUtils.generateMapOfInstancesByFeatureValue(instances, feature);
-
-      Double featureInformationGain = InformationGain.calculateInformationGain(entropy, feature, quantityByFeatureValue, instances.getNumberOfInstances());
-
-      if(bestInformationGain < featureInformationGain) {
-        bestInformationGain = featureInformationGain;
-        bestFeature = feature;
-      }
-    }
-
-    return bestFeature;
   }
 
   protected Features getRemaingFeatures(Features features, Feature bestFeature) {

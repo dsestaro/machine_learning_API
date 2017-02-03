@@ -292,44 +292,6 @@ public class TreeTests {
   }
 
   @Test
-  public void testGetBestFeature() throws InvalidFeatureValueException {
-
-    int outputTrueQuantity = 9;
-    int outputFalseQuantity = 5;
-    String outputFalse = "No";
-    String outputTrue = "Yes";
-    String expectedFeature = "Outlook";
-
-
-    TreeImpl tree = new TreeImpl();
-
-    Map<String, Integer> quantity = new HashMap<String, Integer>();
-
-    quantity.put(outputTrue, outputTrueQuantity);
-    quantity.put(outputFalse, outputFalseQuantity);
-
-    Feature feature = tree.getBestFeature(this.features, this.instances, quantity);
-
-    assertEquals(expectedFeature, feature.getName());
-  }
-
-  @Test(expected = InvalidFeatureValueException.class)
-  public void testGetBestFeatureWithInvalidValueOnAInstance() throws InvalidFeatureValueException {
-
-    Instance instance = new InstanceImpl();
-    instance.setExpectedOutput("Yes");
-    instance.setNewFeature("Outlook", "Invalid");
-    instance.setNewFeature("Temperature", "Invalid");
-    instance.setNewFeature("Humidity", "Invalid");
-    instance.setNewFeature("Wind", "Invalid");
-    this.instances.addNewInstance(instance);
-
-    Map<String, Integer> quantity = TreeUtils.calculateQuantityOutput(this.instances);
-
-    Feature feature = this.tree.getBestFeature(this.features, this.instances, quantity);
-  }
-
-  @Test
   public void testFilterBestFeatureFromTheFeaturesList() {
 
     Feature feature = new FeatureImpl("Outlook");
