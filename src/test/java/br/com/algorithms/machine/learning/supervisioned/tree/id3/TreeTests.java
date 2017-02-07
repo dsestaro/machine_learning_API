@@ -292,48 +292,84 @@ public class TreeTests {
   }
 
   @Test
-  public void testFilterBestFeatureFromTheFeaturesList() {
+  public void testGetRemaingFeatures() {
 
-    Feature feature = new FeatureImpl("Outlook");
-    feature.addNewValue("Sunny");
-    feature.addNewValue("Overcast");
-    feature.addNewValue("Rain");
-    this.features.addFeature(feature);
+    Integer expectedQuantity = 3;
 
-    Features featuresFiltered = this.tree.getRemaingFeatures(this.features, feature);
+    String featureOutlookName = "Outlook";
+    String featureTemperatureName = "Temperature";
+    String featureHumidityName = "Humidity";
+    String featureWindName = "Wind";
 
-    assertEquals(new Integer(3), featuresFiltered.getNumberOfFeatures());
+    Features features = new FeaturesImpl();
+    Features featuresFiltered = null;
+
+    TreeImpl tree = new TreeImpl();
+
+    Feature featureOutlook = new FeatureImpl(featureOutlookName);
+    Feature featureTemperature = new FeatureImpl(featureTemperatureName);
+    Feature featureHumidity = new FeatureImpl(featureHumidityName);
+    Feature featureWind = new FeatureImpl(featureWindName);
+
+    features.addFeature(featureOutlook);
+    features.addFeature(featureTemperature);
+    features.addFeature(featureHumidity);
+    features.addFeature(featureWind);
+
+    featuresFiltered = tree.getRemaingFeatures(features, featureOutlook);
+
+    assertEquals(expectedQuantity, featuresFiltered.getNumberOfFeatures());
 
     for(Feature filteredFeature : featuresFiltered.getFeatures()) {
 
-      assertNotEquals(feature.getName(), filteredFeature.getName());
+      assertNotEquals(featureOutlook.getName(), filteredFeature.getName());
     }
   }
 
   @Test
   public void testBuildFeatureNode() {
 
-    Feature feature = new FeatureImpl("Wind");
-    feature.addNewValue("Weak");
-    feature.addNewValue("Strong");
+    String featureName = "Wind";
+    String featureFirstValue = "Weak";
+    String featureSecondValue = "Strong";
 
-    Node node = this.tree.buildFeatureNode(feature);
+    NodeType expectedNodeType = NodeType.FEATURE_NODE;
 
-    assertEquals(NodeType.FEATURE_NODE, node.getNodeType());
-    assertEquals("Wind", node.getFeature().getName());
+    TreeImpl tree = new TreeImpl();
+
+    Feature feature = new FeatureImpl(featureName);
+
+    feature.addNewValue(featureFirstValue);
+    feature.addNewValue(featureSecondValue);
+
+
+    Node node = tree.buildFeatureNode(feature);
+
+    assertEquals(expectedNodeType, node.getNodeType());
+    assertEquals(featureName, node.getFeature().getName());
   }
 
   @Test
-  public void testPopulateExamplesOnChildNode() throws InvalidFeatureValueException {
+  public void testPopulateExamples() throws InvalidFeatureValueException {
 
-    Feature bestFeature = new FeatureImpl("Wind");
-    bestFeature.addNewValue("Weak");
-    bestFeature.addNewValue("Strong");
+    Integer expectedNumberOfFeaturesWithFirstValue = 8;
+    Integer expectedNumberOfFeaturesWithSecondValue = 6;
 
-    Map<String, Instances> examples = this.tree.populateExamples(bestFeature, this.instances);
+    String featureName = "Wind";
+    String featureFirstValue = "Weak";
+    String featureSecondValue = "Strong";
 
-    assertEquals(new Integer(8), examples.get("Weak").getNumberOfInstances());
-    assertEquals(new Integer(6), examples.get("Strong").getNumberOfInstances());
+    TreeImpl tree = new TreeImpl();
+
+    Feature bestFeature = new FeatureImpl(featureName);
+
+    bestFeature.addNewValue(featureFirstValue);
+    bestFeature.addNewValue(featureSecondValue);
+
+    Map<String, Instances> examples = tree.populateExamples(bestFeature, this.instances);
+
+    assertEquals(expectedNumberOfFeaturesWithFirstValue, examples.get(featureFirstValue).getNumberOfInstances());
+    assertEquals(expectedNumberOfFeaturesWithSecondValue, examples.get(featureSecondValue).getNumberOfInstances());
   }
 
   @Test(expected = InvalidFeatureValueException.class)
