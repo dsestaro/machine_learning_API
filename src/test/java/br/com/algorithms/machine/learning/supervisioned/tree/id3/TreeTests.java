@@ -360,34 +360,64 @@ public class TreeTests {
     String featureSecondValue = "Strong";
 
     TreeImpl tree = new TreeImpl();
+    Instances instances = new InstancesImpl();
 
     Feature bestFeature = new FeatureImpl(featureName);
+
+    for(int i = 0; i < expectedNumberOfFeaturesWithFirstValue; i++) {
+
+      Instance instance = new InstanceImpl();
+      instance.setNewFeature(featureName, featureFirstValue);
+      instances.addNewInstance(instance);
+    }
+
+    for(int i = 0; i < expectedNumberOfFeaturesWithSecondValue; i++) {
+
+      Instance instance = new InstanceImpl();
+      instance.setNewFeature(featureName, featureSecondValue);
+      instances.addNewInstance(instance);
+    }
 
     bestFeature.addNewValue(featureFirstValue);
     bestFeature.addNewValue(featureSecondValue);
 
-    Map<String, Instances> examples = tree.populateExamples(bestFeature, this.instances);
+    Map<String, Instances> examples = tree.populateExamples(bestFeature, instances);
 
     assertEquals(expectedNumberOfFeaturesWithFirstValue, examples.get(featureFirstValue).getNumberOfInstances());
     assertEquals(expectedNumberOfFeaturesWithSecondValue, examples.get(featureSecondValue).getNumberOfInstances());
   }
 
-  @Test(expected = InvalidFeatureValueException.class)
-  public void testPopulateExamplesOnChildNodeWithInvalidFeatureValue() throws InvalidFeatureValueException {
+  @Test
+  public void testPopulateExamples_InvalidFeatureValue() throws InvalidFeatureValueException {
 
-    Feature bestFeature = new FeatureImpl("Wind");
-    bestFeature.addNewValue("Weak");
-    bestFeature.addNewValue("Strong");
+    String featureName = "Wind";
+    String featureFirstValue = "Weak";
+    String featureSecondValue = "Strong";
+    String featureInvalidValue = "Invalid";
+
+    String expectedMessage = String.format(TreeUtils.INVALID_FEATURE, featureInvalidValue);
+
+    TreeImpl tree = new TreeImpl();
+    Instances instances = new InstancesImpl();
+
+    Feature bestFeature = new FeatureImpl(featureName);
 
     Instance instance = new InstanceImpl();
-    instance.setExpectedOutput("Yes");
-    instance.setNewFeature("Outlook", "Invalid");
-    instance.setNewFeature("Temperature", "Invalid");
-    instance.setNewFeature("Humidity", "Invalid");
-    instance.setNewFeature("Wind", "Invalid");
-    this.instances.addNewInstance(instance);
+    instance.setNewFeature(featureName, featureInvalidValue);
+    instances.addNewInstance(instance);
 
-    Map<String, Instances> examples = this.tree.populateExamples(bestFeature, this.instances);
+    bestFeature.addNewValue(featureFirstValue);
+    bestFeature.addNewValue(featureSecondValue);
+
+    try {
+
+      tree.populateExamples(bestFeature, instances);
+
+      fail("InvalidFeatureValueException should be thrown.");
+    } catch (InvalidFeatureValueException e) {
+
+      assertEquals(expectedMessage, e.getMessage());
+    }
   }
 
   @Test
