@@ -1,7 +1,5 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3;
 
-import br.com.algorithms.machine.learning.math.entropy.Entropy;
-import br.com.algorithms.machine.learning.math.information.gain.InformationGain;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
