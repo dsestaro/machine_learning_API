@@ -7,7 +7,6 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;

@@ -13,11 +13,8 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;

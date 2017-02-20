@@ -3,7 +3,6 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
