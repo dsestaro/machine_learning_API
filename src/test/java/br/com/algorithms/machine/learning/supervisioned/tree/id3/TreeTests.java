@@ -1,5 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3;
 
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
@@ -7,7 +8,6 @@ import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.I
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.tree.InvalidTreeParametersException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
@@ -30,7 +30,7 @@ import static org.junit.Assert.fail;
 public class TreeTests {
 
   @Test
-  public void testTreeInstantiatoin() {
+  public void testTreeInstantiation() {
 
     Tree tree = new TreeImpl();
 
@@ -49,8 +49,8 @@ public class TreeTests {
 
       tree.buildDecisionTree(features, instances);
 
-      fail("InvalidTreeParametersException should be thrown.");
-    } catch (InvalidTreeParametersException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(TreeImpl.INVALID_FEATURES, e.getMessage());
     }
@@ -69,8 +69,8 @@ public class TreeTests {
 
       tree.buildDecisionTree(features, instances);
 
-      fail("InvalidTreeParametersException should be thrown.");
-    } catch (InvalidTreeParametersException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(TreeImpl.INVALID_FEATURES, e.getMessage());
     }
@@ -91,8 +91,8 @@ public class TreeTests {
 
       tree.buildDecisionTree(features, instances);
 
-      fail("InvalidTreeParametersException should be thrown.");
-    } catch (InvalidTreeParametersException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(TreeImpl.INVALID_INSTANCES, e.getMessage());
     }
@@ -113,8 +113,8 @@ public class TreeTests {
 
       tree.buildDecisionTree(features, instances);
 
-      fail("InvalidTreeParametersException should be thrown.");
-    } catch (InvalidTreeParametersException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(TreeImpl.INVALID_INSTANCES, e.getMessage());
     }

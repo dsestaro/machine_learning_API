@@ -1,4 +1,4 @@
-package br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance;
+package br.com.algorithms.machine.learning.exception.instances;
 
 public class NonExistentInstanceException extends RuntimeException {
 

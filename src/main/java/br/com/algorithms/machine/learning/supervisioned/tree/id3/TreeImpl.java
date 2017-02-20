@@ -1,10 +1,10 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3;
 
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Features;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeaturesImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.tree.InvalidTreeParametersException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.Node;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeBuilder;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.NodeType;
@@ -46,12 +46,12 @@ public class TreeImpl implements Tree {
 
     if(features == null || features.getNumberOfFeatures() == 0) {
 
-      throw new InvalidTreeParametersException(INVALID_FEATURES);
+      throw new InvalidParameterException(INVALID_FEATURES);
     }
 
     if(instances == null || instances.getNumberOfInstances() == 0) {
 
-      throw new InvalidTreeParametersException(INVALID_INSTANCES);
+      throw new InvalidParameterException(INVALID_INSTANCES);
     }
   }
 

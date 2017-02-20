@@ -2,8 +2,7 @@ package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeInformationException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.node.exception.InvalidNodeInformationException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

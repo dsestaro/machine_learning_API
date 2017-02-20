@@ -1,6 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.InvalidInstanceInformationException;
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -51,8 +51,8 @@ public class InstanceTests {
 
       instance.setNewFeature(featureName, featureValue);
 
-      fail("InvalidInstanceInformationException should be thrown.");
-    } catch (InvalidInstanceInformationException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(InstanceImpl.INVALID_FEATURE_NAME, e.getMessage());
     }
@@ -69,8 +69,8 @@ public class InstanceTests {
 
       instance.setNewFeature(featureName, featureValue);
 
-      fail("InvalidInstanceInformationException should be thrown.");
-    } catch (InvalidInstanceInformationException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(InstanceImpl.INVALID_FEATURE_NAME, e.getMessage());
     }
@@ -102,8 +102,8 @@ public class InstanceTests {
       instance.setNewFeature(featureName, featureFirstValue);
       instance.setNewFeature(featureName, featureSecondValue);
 
-      fail("InvalidInstanceInformationException should be thrown.");
-    } catch (InvalidInstanceInformationException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(InstanceImpl.INVALID_FEATURE, e.getMessage());
     }

@@ -1,10 +1,9 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.math.entropy.Entropy;
 import br.com.algorithms.machine.learning.math.information.gain.InformationGain;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidInstancesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidQuantityException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 
@@ -73,12 +72,12 @@ public class FeaturesImpl implements Features {
 
     if(instances == null || instances.getNumberOfInstances() == 0) {
 
-      throw new InvalidInstancesException(INVALID_INSTANCES);
+      throw new InvalidParameterException(INVALID_INSTANCES);
     }
 
     if(outputQuant == null || outputQuant.size() == 0) {
 
-      throw new InvalidQuantityException(INVALID_QUANTITIES);
+      throw new InvalidParameterException(INVALID_QUANTITIES);
     }
   }
 }

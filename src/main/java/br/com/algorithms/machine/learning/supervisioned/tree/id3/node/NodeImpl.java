@@ -1,7 +1,7 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
 import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class NodeImpl implements Node {
 
     if (nodeType == null) {
 
-      throw new InvalidNodeParameterException(INVALID_NODE_TYPE);
+      throw new InvalidParameterException(INVALID_NODE_TYPE);
     }
   }
 
@@ -57,7 +57,7 @@ public class NodeImpl implements Node {
 
     if(StringUtils.isEmpty(output)) {
 
-      throw new InvalidNodeParameterException(INVALID_OUTPUT);
+      throw new InvalidParameterException(INVALID_OUTPUT);
     }
   }
 

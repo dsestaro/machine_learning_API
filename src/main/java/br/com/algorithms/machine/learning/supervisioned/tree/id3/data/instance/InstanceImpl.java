@@ -1,6 +1,6 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.instance.InvalidInstanceInformationException;
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.utils.StringUtils;
 
 import java.util.HashMap;
@@ -39,12 +39,12 @@ public class InstanceImpl implements Instance {
 
     if(StringUtils.isEmpty(featureName)) {
 
-      throw new InvalidInstanceInformationException(INVALID_FEATURE_NAME);
+      throw new InvalidParameterException(INVALID_FEATURE_NAME);
     }
 
     if(this.features.containsKey(featureName) && !this.features.get(featureName).equals(featureValue)) {
 
-      throw new InvalidInstanceInformationException(INVALID_FEATURE);
+      throw new InvalidParameterException(INVALID_FEATURE);
     }
   }
 

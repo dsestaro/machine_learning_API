@@ -1,8 +1,8 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.node;
 
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.Feature;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature.FeatureImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.node.InvalidNodeParameterException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,8 +43,8 @@ public class NodeTests {
 
       node.setNodeType(nodeType);
 
-      fail("InvalidNodeParameterException should be thrown.");
-    } catch (InvalidNodeParameterException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(NodeImpl.INVALID_NODE_TYPE, e.getMessage());
     }
@@ -75,8 +75,8 @@ public class NodeTests {
 
       node.setOutput(output);
 
-      fail("InvalidNodeParameterException should be thrown.");
-    } catch (InvalidNodeParameterException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(NodeImpl.INVALID_OUTPUT, e.getMessage());
     }
@@ -93,8 +93,8 @@ public class NodeTests {
 
       node.setOutput(output);
 
-      fail("InvalidNodeParameterException should be thrown.");
-    } catch (InvalidNodeParameterException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(NodeImpl.INVALID_OUTPUT, e.getMessage());
     }

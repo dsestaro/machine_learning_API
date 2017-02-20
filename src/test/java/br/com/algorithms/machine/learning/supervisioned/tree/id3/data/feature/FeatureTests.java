@@ -1,6 +1,8 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidFeatureParameterException;
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
+import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,8 +33,8 @@ public class FeatureTests {
 
       Feature feature = new FeatureImpl(featureName);
 
-      fail("InvalidFeatureParameterException should be thrown.");
-    } catch(InvalidFeatureParameterException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch(InvalidParameterException e) {
 
       assertEquals(FeatureImpl.INVALID_NAME, e.getMessage());
     }
@@ -47,8 +49,8 @@ public class FeatureTests {
 
       Feature feature = new FeatureImpl(featureName);
 
-      fail("InvalidFeatureParameterException should be thrown.");
-    } catch(InvalidFeatureParameterException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch(InvalidParameterException e) {
 
       assertEquals(FeatureImpl.INVALID_NAME, e.getMessage());
     }
@@ -122,5 +124,27 @@ public class FeatureTests {
     Feature secondFeature = new FeatureImpl(secondFeatureName);
 
     assertFalse(firstFeature.equals(secondFeature));
+  }
+
+  @Test
+  public void testEqualMethod_NullObject() {
+
+    String firstFeatureName = "Test1";
+
+    Feature firstFeature = new FeatureImpl(firstFeatureName);
+    Feature secondFeature = null;
+
+    assertFalse(firstFeature.equals(secondFeature));
+  }
+
+  @Test
+  public void testEqualMethod_ObjectFromOtherClass() {
+
+    String firstFeatureName = "Test1";
+
+    Feature feature = new FeatureImpl(firstFeatureName);
+    Instance instance = new InstanceImpl();
+
+    assertFalse(feature.equals(instance));
   }
 }

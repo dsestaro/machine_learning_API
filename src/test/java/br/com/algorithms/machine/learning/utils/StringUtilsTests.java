@@ -3,24 +3,45 @@ package br.com.algorithms.machine.learning.utils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StringUtilsTests {
 
   @Test
-  public void testValidateOfEmtpyString() {
+  public void testStringUtilsInstantiation() {
 
-    assertEquals(true, StringUtils.isEmpty(""));
+    StringUtils utils = new StringUtils();
+
+    assertNotNull(utils);
   }
 
   @Test
-  public void testValidateOfNullString() {
+  public void testIsEmpty_EmptyString() {
 
-    assertEquals(true, StringUtils.isEmpty(null));
+    boolean expectedResult = true;
+
+    String value = "";
+
+    assertEquals(expectedResult, StringUtils.isEmpty(value));
   }
 
   @Test
-  public void testValidateOfValidString() {
+  public void testIsEmpty_NullString() {
 
-    assertEquals(false, StringUtils.isEmpty("Valid"));
+    boolean expectedResult = true;
+
+    String value = null;
+
+    assertEquals(expectedResult, StringUtils.isEmpty(value));
+  }
+
+  @Test
+  public void testIsEmpty_ValidString() {
+
+    boolean expectedResult = false;
+
+    String value = "Valid";
+
+    assertEquals(expectedResult, StringUtils.isEmpty(value));
   }
 }

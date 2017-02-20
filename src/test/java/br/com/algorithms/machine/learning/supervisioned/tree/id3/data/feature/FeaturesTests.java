@@ -1,13 +1,10 @@
 package br.com.algorithms.machine.learning.supervisioned.tree.id3.data.feature;
 
-import br.com.algorithms.machine.learning.math.entropy.Entropy;
-import br.com.algorithms.machine.learning.math.entropy.exception.InvalidEntropyParametersException;
+import br.com.algorithms.machine.learning.exception.parameters.InvalidParameterException;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instance;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstanceImpl;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.Instances;
 import br.com.algorithms.machine.learning.supervisioned.tree.id3.data.instance.InstancesImpl;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidInstancesException;
-import br.com.algorithms.machine.learning.supervisioned.tree.id3.exception.feature.InvalidQuantityException;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.TreeUtils;
 import br.com.algorithms.machine.learning.supervisioned.tree.utils.exception.InvalidFeatureValueException;
 import org.junit.Test;
@@ -219,8 +216,8 @@ public class FeaturesTests {
 
       features.getBestFeature(instances, quantity);
 
-      fail("InvalidQuantityException should be thrown.");
-    } catch (InvalidQuantityException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(FeaturesImpl.INVALID_QUANTITIES, e.getMessage());
     }
@@ -242,8 +239,8 @@ public class FeaturesTests {
 
       features.getBestFeature(instances, quantity);
 
-      fail("InvalidQuantityException should be thrown.");
-    } catch (InvalidQuantityException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(FeaturesImpl.INVALID_QUANTITIES, e.getMessage());
     }
@@ -261,8 +258,8 @@ public class FeaturesTests {
 
       features.getBestFeature(instances, quantity);
 
-      fail("InvalidInstancesException should be thrown.");
-    } catch (InvalidInstancesException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(FeaturesImpl.INVALID_INSTANCES, e.getMessage());
     }
@@ -280,8 +277,8 @@ public class FeaturesTests {
 
       features.getBestFeature(instances, quantity);
 
-      fail("InvalidInstancesException should be thrown.");
-    } catch (InvalidInstancesException e) {
+      fail("InvalidParameterException should be thrown.");
+    } catch (InvalidParameterException e) {
 
       assertEquals(FeaturesImpl.INVALID_INSTANCES, e.getMessage());
     }
